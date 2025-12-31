@@ -1,4 +1,4 @@
-import ArticleMeta from "../common/ArticleMeta";
+import ArticleMeta from "../../common/ArticleMeta";
 
 // 2. Sub-component for the Main Feature
 const FeaturedArticle = ({ article }) => {

@@ -1,16 +1,22 @@
 import CategoryNav from "../common/CategoryNav";
 import ArticleList from "../ArticleList";
-import Spotlight from "./Spotlight";
+import CategoryInfo from "./CategoryInfo";
+import ArticleSpotlight from "./ArticleSpolight";
+import { article } from "@/data/article";
+import { getAllCategories } from "@/sanity/services/categoryService";
 
-const CategoryPage = () => {
+const CategoryPage = async () => {
+  const categories = await getAllCategories();
   const category = "culture"; // Replace with dynamic category name based on slug
   return (
     <>
-      <Spotlight
+      <CategoryInfo
+        slug={`culture`}
         name={`culture`}
-        bio={`Writers explore the depths of our cultural heritage and how it shapes who we are and who we’ll be`}
+        description={`Writers explore the depths of our cultural heritage and how it shapes who we are and who we’ll be`}
       />
-      <CategoryNav />
+      <CategoryNav categories={categories} />
+      <ArticleSpotlight article={article} />
       <div className="border-t border-t-black/30">
         <div className="max-w-screen-xl mx-auto px-16 py-12">
           <ArticleList

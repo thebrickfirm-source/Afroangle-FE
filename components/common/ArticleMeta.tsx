@@ -2,11 +2,13 @@
 interface ArticleMetaProps {
   author?: string;
   date?: string;
+  large?: boolean;
 }
-const ArticleMeta = ({ author, date }) => (
-  <div className="flex gap-3 text-sm font-medium">
-    <span>{author}</span>
-    <time>{date}</time>
+const ArticleMeta = ({ author, date, large = false }) => (
+  <div className={`flex gap-2 ${large ? "text-xl" : ""}`}>
+    <p>{author}</p>
+    <span className="text-neutral-400 ">•</span>
+    <p>{date}</p>
   </div>
 );
 export default ArticleMeta;

@@ -1,9 +1,9 @@
-interface SpotlightProps {
+interface CategoryInfoProps {
   name: string;
   slug: string;
-  bio: string;
+  description: string;
 }
-const Spotlight = ({ name, slug, bio }) => {
+const CategoryInfo = ({ name, slug, description }) => {
   return (
     <div>
       <div className="w-full max-w-screen-xl mx-auto pt-16 pr-10 pl-16">
@@ -24,4 +24,4 @@ const Spotlight = ({ name, slug, bio }) => {
   );
 };
 
-export default Spotlight;
+export default CategoryInfo;

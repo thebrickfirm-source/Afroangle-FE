@@ -1,4 +1,4 @@
-import ArticleMeta from "../common/ArticleMeta";
+import ArticleMeta from "../../common/ArticleMeta";
 
 const SidebarArticle = ({ article }) => {
   return (
