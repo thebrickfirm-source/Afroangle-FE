@@ -6,8 +6,12 @@ import {
   ARTICLE_BY_SLUG_QUERY,
 } from "../queries/articles";
 // Use your existing Article type here
-import { ArticlePopulated } from "@/types";
 import { TOTAL_CATEGORY_COUNT } from "../queries/categories";
+import {
+  ALL_ARTICLES_QUERY_RESULT,
+  ARTICLE_BY_SLUG_QUERY_RESULT,
+  ARTICLES_BY_CATEGORY_QUERY_RESULT,
+} from "../types";
 
 // Helper Interface for Pagination
 export interface PaginatedResponse<T> {
@@ -23,7 +27,7 @@ const DEFAULT_LIMIT = 10;
 export async function getAllArticles(
   page: number = 1,
   limit: number = DEFAULT_LIMIT
-): Promise<PaginatedResponse<ArticlePopulated>> {
+): Promise<PaginatedResponse<ALL_ARTICLES_QUERY_RESULT>> {
   const start = (page - 1) * limit;
   const end = start + limit;
 
@@ -50,7 +54,7 @@ export async function getArticlesByCategory(
   slug: string,
   page: number = 1,
   limit: number = DEFAULT_LIMIT
-): Promise<PaginatedResponse<ArticlePopulated>> {
+): Promise<PaginatedResponse<ARTICLES_BY_CATEGORY_QUERY_RESULT>> {
   const start = (page - 1) * limit;
   const end = start + limit;
 
@@ -78,7 +82,7 @@ export async function getArticlesByCategory(
 // --- 3. Get Single Article (No Pagination Needed) ---
 export async function getArticleBySlug(
   slug: string
-): Promise<ArticlePopulated | null> {
+): Promise<ARTICLE_BY_SLUG_QUERY_RESULT | null> {
   return await client.fetch(
     ARTICLE_BY_SLUG_QUERY,
     { slug },

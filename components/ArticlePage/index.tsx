@@ -86,7 +86,7 @@ export default function ArticlePageContent({
 
         <ArticleImage src={article.mainImage} alt={article.title} />
 
-        <div className="prose prose-lg prose-neutral max-w-none ">
+        <div className="prose prose-lg prose-neutral max-w-3xl mx-auto ">
           <PortableText
             value={article.content}
             components={RichTextComponents}

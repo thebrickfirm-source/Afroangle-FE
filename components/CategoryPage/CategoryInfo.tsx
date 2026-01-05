@@ -1,16 +1,15 @@
+import ShareButton from "../common/ShareButton";
+
 interface CategoryInfoProps {
   name: string;
-  slug: string;
   description: string;
 }
-const CategoryInfo = ({ name, slug, description }) => {
+const CategoryInfo = ({ name, description }: CategoryInfoProps) => {
   return (
     <div>
       <div className="w-full max-w-screen-xl mx-auto lg:pt-16 pt-6 lg:pr-10 lg:pl-16 px-4">
         <div className="flex justify-end">
-          <button className="slant-top-left bg-neutral py-1.5 pr-4 pl-6 lg:text-lg font-secondary">
-            Share
-          </button>
+          <ShareButton />
         </div>
         <h1 className="text-5xl lg:text-7xl uppercase text-primary-red tracking-wider mb-4">
           {name}
