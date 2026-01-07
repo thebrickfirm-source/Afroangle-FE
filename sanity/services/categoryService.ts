@@ -3,6 +3,10 @@ import {
   ALL_CATEGORIES_QUERY,
   CATEGORY_BY_SLUG_QUERY,
 } from "../queries/categories";
+import {
+  ALL_CATEGORIES_QUERY_RESULT,
+  CATEGORY_BY_SLUG_QUERY_RESULT,
+} from "../types";
 
 export interface CategoryData {
   _id: string;
@@ -12,7 +16,7 @@ export interface CategoryData {
 }
 
 //get all categories
-export async function getAllCategories(): Promise<CategoryData[]> {
+export async function getAllCategories(): Promise<ALL_CATEGORIES_QUERY_RESULT> {
   // 1 hour cache (3600s) is usually good for categories since they rarely change
   return await client.fetch(
     ALL_CATEGORIES_QUERY,
@@ -24,7 +28,7 @@ export async function getAllCategories(): Promise<CategoryData[]> {
 // get category by slug
 export async function getCategoryBySlug(
   slug: string
-): Promise<CategoryData | null> {
+): Promise<CATEGORY_BY_SLUG_QUERY_RESULT | null> {
   return await client.fetch(
     CATEGORY_BY_SLUG_QUERY,
     { slug },
