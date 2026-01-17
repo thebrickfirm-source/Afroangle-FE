@@ -13,8 +13,13 @@ export const commentType = defineType({
       type: "string",
     }),
     defineField({
-      name: "comment",
-      title: "Comment",
+      name: "email",
+      title: "Email",
+      type: "string",
+    }),
+    defineField({
+      name: "message",
+      title: "Message",
       type: "text",
     }),
     defineField({
