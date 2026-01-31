@@ -54,6 +54,9 @@ body {
 .slant-top-left {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
 }
+.slant-bottom-right {
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%);
+}
 .slant-right-top {
   clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
   top: 0;

@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     // C. Convert Stream to Buffer (Node.js/Next.js requirement for upload)
     const chunks = [];
     for await (const chunk of audioStream) {
-      chunks.push(chunk);'
+      chunks.push(chunk);
     }
     const audioBuffer = Buffer.concat(chunks);
 

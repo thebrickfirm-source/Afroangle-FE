@@ -11,6 +11,7 @@ export const categoryType = defineType({
       name: "name",
       title: "Name",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "language",
@@ -24,11 +25,13 @@ export const categoryType = defineType({
       title: "Slug",
       type: "slug",
       options: { source: "name" },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "text",
+      validation: (Rule) => Rule.required(),
     }),
   ],
 });

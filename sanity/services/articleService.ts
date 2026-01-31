@@ -36,7 +36,7 @@ export async function getAllArticles(
   const [data, total] = await Promise.all([
     client.fetch(
       ALL_ARTICLES_QUERY,
-      { start, end, locale },
+      { locale, start, end },
       { next: { revalidate: 3600 } },
     ),
     client.fetch(TOTAL_ARTICLES_COUNT, {}, { next: { revalidate: 3600 } }),
@@ -63,7 +63,7 @@ export async function getArticlesByCategory(
   const [data, total] = await Promise.all([
     client.fetch(
       ARTICLES_BY_CATEGORY_QUERY,
-      { slug, start, end, locale },
+      { slug, locale, start, end },
       { next: { revalidate: 3600 } },
     ),
     client.fetch(

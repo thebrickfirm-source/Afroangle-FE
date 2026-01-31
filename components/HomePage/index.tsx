@@ -5,8 +5,8 @@ import { getAllCategories } from "@/sanity/services/categoryService";
 import { getAllArticles } from "@/sanity/services/articleService";
 
 const HomePage = async ({ locale }: { locale: string }) => {
-  const categories = await getAllCategories(locale);
-  const articles = (await getAllArticles(locale)).data;
+  const categories = await getAllCategories();
+  const articles = (await getAllArticles(1, locale)).data;
   return (
     <>
       <CategoryNav categories={categories} />

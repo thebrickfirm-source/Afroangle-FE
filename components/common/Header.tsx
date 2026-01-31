@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import NewsletterModal from "./NewsLetterSignUp";
+import OpinionSubmissionModal from "./SubmitOpinionPiece";
 const Header = () => {
   return (
     <header className="font-secondary border-b border-black/30">
@@ -19,9 +21,10 @@ const Header = () => {
             The African lens for all global issues
           </p>
         </div>
-        <button className="bg-primary-green py-4 pl-8 pr-6 text-white slant-top-left leading-none">
-          Get the daily digest
-        </button>
+        <div className="flex items-center gap-2">
+          <OpinionSubmissionModal />
+          <NewsletterModal />
+        </div>
       </div>
     </header>
   );
