@@ -32,8 +32,9 @@ export default defineConfig({
         { id: "en", title: "English" },
         { id: "fr", title: "French" },
       ],
-      schemaTypes: ["post", "home"], // add your home singleton type here
+      schemaTypes: ["article", "comment"], // add your home singleton type here
       languageField: "language",
+      bulkPublish: true,
     }),
   ],
 });

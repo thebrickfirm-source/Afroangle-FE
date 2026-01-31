@@ -12,6 +12,7 @@ export async function getArticleComments(
   articleId: string,
   page: number = 1,
   limit: number = DEFAULT_LIMIT,
+  locale: string,
 ): Promise<PaginatedResponse<GET_COMMENTS_BY_ARTICLE_RESULT>> {
   // Replace 'Comment' with your actual Type interface
   const start = (page - 1) * limit;

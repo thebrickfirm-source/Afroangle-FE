@@ -17,6 +17,7 @@ export const commentType = defineType({
       type: "string",
       title: "Language",
       readOnly: true,
+      hidden: true,
     }),
     defineField({
       name: "email",

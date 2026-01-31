@@ -4,9 +4,9 @@ import Hero from "@/components/HomePage/Hero";
 import { getAllCategories } from "@/sanity/services/categoryService";
 import { getAllArticles } from "@/sanity/services/articleService";
 
-const HomePage = async () => {
-  const categories = await getAllCategories();
-  const articles = (await getAllArticles()).data;
+const HomePage = async ({ locale }: { locale: string }) => {
+  const categories = await getAllCategories(locale);
+  const articles = (await getAllArticles(locale)).data;
   return (
     <>
       <CategoryNav categories={categories} />

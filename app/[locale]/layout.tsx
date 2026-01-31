@@ -3,6 +3,7 @@ import { Rokkitt, Kumbh_Sans } from "next/font/google";
 import Header from "@/components/common/Header";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/locales";
+import Footer from "@/components/common/Footer";
 
 const rokkitt = Rokkitt({
   variable: "--font-rokkitt",
@@ -70,6 +71,7 @@ export default async function RootLayout({
       <body className={`${rokkitt.variable} ${kumbhSans.variable} antialiased`}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
