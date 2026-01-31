@@ -9,6 +9,13 @@ export const articleType = defineType({
   icon: DocumentIcon,
   fields: [
     defineField({
+      name: "language",
+      type: "string",
+      title: "Language",
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: "title",
       title: "Title",
       type: "string",

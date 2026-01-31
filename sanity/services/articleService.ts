@@ -26,7 +26,8 @@ const DEFAULT_LIMIT = 10;
 // --- 1. Get All Articles (Paginated) ---
 export async function getAllArticles(
   page: number = 1,
-  limit: number = DEFAULT_LIMIT
+  locale: string,
+  limit: number = DEFAULT_LIMIT,
 ): Promise<PaginatedResponse<ALL_ARTICLES_QUERY_RESULT>> {
   const start = (page - 1) * limit;
   const end = start + limit;
@@ -35,8 +36,8 @@ export async function getAllArticles(
   const [data, total] = await Promise.all([
     client.fetch(
       ALL_ARTICLES_QUERY,
-      { start, end },
-      { next: { revalidate: 3600 } }
+      { locale, start, end },
+      { next: { revalidate: 3600 } },
     ),
     client.fetch(TOTAL_ARTICLES_COUNT, {}, { next: { revalidate: 3600 } }),
   ]);
@@ -53,7 +54,8 @@ export async function getAllArticles(
 export async function getArticlesByCategory(
   slug: string,
   page: number = 1,
-  limit: number = DEFAULT_LIMIT
+  limit: number = DEFAULT_LIMIT,
+  locale: string,
 ): Promise<PaginatedResponse<ARTICLES_BY_CATEGORY_QUERY_RESULT>> {
   const start = (page - 1) * limit;
   const end = start + limit;
@@ -61,13 +63,13 @@ export async function getArticlesByCategory(
   const [data, total] = await Promise.all([
     client.fetch(
       ARTICLES_BY_CATEGORY_QUERY,
-      { slug, start, end },
-      { next: { revalidate: 3600 } }
+      { slug, locale, start, end },
+      { next: { revalidate: 3600 } },
     ),
     client.fetch(
       TOTAL_CATEGORY_COUNT,
       { slug },
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 3600 } },
     ),
   ]);
 
@@ -81,11 +83,12 @@ export async function getArticlesByCategory(
 
 // --- 3. Get Single Article (No Pagination Needed) ---
 export async function getArticleBySlug(
-  slug: string
+  slug: string,
+  locale: string,
 ): Promise<ARTICLE_BY_SLUG_QUERY_RESULT | null> {
   return await client.fetch(
     ARTICLE_BY_SLUG_QUERY,
-    { slug },
-    { next: { revalidate: 10 } }
+    { slug, locale },
+    { next: { revalidate: 10 } },
   );
 }

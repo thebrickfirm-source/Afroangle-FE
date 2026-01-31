@@ -23,6 +23,57 @@ export type TwitterEmbed = {
   url?: string;
 };
 
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  language?: string;
+  slug?: Slug;
+  description?: string;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type TranslationMetadata = {
+  _id: string;
+  _type: "translation.metadata";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  translations?: InternationalizedArrayReference;
+  schemaTypes?: Array<string>;
+};
+
+export type InternationalizedArrayReference = Array<
+  {
+    _key: string;
+  } & InternationalizedArrayReferenceValue
+>;
+
+export type InternationalizedArrayReferenceValue = {
+  _type: "internationalizedArrayReferenceValue";
+  value?:
+    | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "article";
+      }
+    | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "comment";
+      };
+};
+
 export type Comment = {
   _id: string;
   _type: "comment";
@@ -30,6 +81,7 @@ export type Comment = {
   _updatedAt: string;
   _rev: string;
   name?: string;
+  language?: string;
   email?: string;
   message?: string;
   article?: {
@@ -41,29 +93,13 @@ export type Comment = {
   approved?: boolean;
 };
 
-export type Category = {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
 export type Article = {
   _id: string;
   _type: "article";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language?: string;
   title?: string;
   slug?: Slug;
   author?: {
@@ -140,7 +176,16 @@ export type Article = {
         _key: string;
       } & TwitterEmbed)
   >;
-  audioUrl?: string;
+  audio?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
   publishedAt?: string;
   comments?: Array<{
     _ref: string;
@@ -175,6 +220,19 @@ export type Author = {
   _rev: string;
   name?: string;
   slug?: Slug;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    caption?: string;
+    _type: "image";
+  };
   bio?: string;
 };
 
@@ -277,9 +335,12 @@ export type Geopoint = {
 export type AllSanitySchemaTypes =
   | VideoEmbed
   | TwitterEmbed
-  | Comment
   | Category
   | Slug
+  | TranslationMetadata
+  | InternationalizedArrayReference
+  | InternationalizedArrayReferenceValue
+  | Comment
   | Article
   | SanityImageCrop
   | SanityImageHotspot
@@ -303,7 +364,7 @@ type ArrayOf<T> = Array<
 
 // Source: sanity\queries\articles.ts
 // Variable: ARTICLE_BY_SLUG_QUERY
-// Query: *[_type == "article" && slug.current == $slug][0] {    _id,    title,    publishedAt,    "slug": slug.current,    "author":author-> {      name,      "slug": slug.current    },    "mainImage": {    "url": mainImage.asset->url,    "caption": mainImage.caption,    },  "category": categories[0]-> {    name,     "slug": slug.current,    },    content,  }
+// Query: *[_type == "article" && slug.current == $slug && language == $locale][0] {    _id,    title,    publishedAt,    "slug": slug.current,    "author":author-> {      name,      "slug": slug.current    },    "audioUrl": audio.asset->url,    "mainImage": {    "url": mainImage.asset->url,    "caption": mainImage.caption,    },  "category": categories[0]-> {    name,     "slug": slug.current,    },    content,  }
 export type ARTICLE_BY_SLUG_QUERY_RESULT = {
   _id: string;
   title: string | null;
@@ -313,6 +374,7 @@ export type ARTICLE_BY_SLUG_QUERY_RESULT = {
     name: string | null;
     slug: string | null;
   } | null;
+  audioUrl: string | null;
   mainImage: {
     url: string | null;
     caption: string | null;
@@ -373,7 +435,7 @@ export type ARTICLE_BY_SLUG_QUERY_RESULT = {
 
 // Source: sanity\queries\articles.ts
 // Variable: ALL_ARTICLES_QUERY
-// Query: *[_type == "article"] | order(publishedAt desc) [$start...$end] {    _id,    title,    publishedAt,    "slug": slug.current,    "author":author->{      name,      "slug": slug.current,    },    "mainImage": mainImage.asset->url,     "excerpt": pt::text(      content[_type == "block"][0...1]    ),    "category": categories[0]-> {      name,      "slug": slug.current      },  }
+// Query: *[_type == "article" && language == $locale] | order(publishedAt desc) [$start...$end] {    _id,    title,    publishedAt,    "slug": slug.current,    "author":author->{      name,      "slug": slug.current,    },    "mainImage": mainImage.asset->url,     "excerpt": pt::text(      content[_type == "block"][0...1]    ),    "category": categories[0]-> {      name,      "slug": slug.current      },  }
 export type ALL_ARTICLES_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -398,7 +460,7 @@ export type TOTAL_ARTICLES_COUNT_RESULT = number;
 
 // Source: sanity\queries\articles.ts
 // Variable: ARTICLES_BY_CATEGORY_QUERY
-// Query: *[_type == "article" && $slug in categories[]->slug.current] | order(publishedAt desc) [$start...$end] {    _id,    title,    publishedAt,    "slug": slug.current,    "author": author-> {       name,      "slug": slug.current,    },    "mainImage": mainImage.asset->url,    "category": categories[0]->{       name,      "slug": slug.current,    },     "excerpt": pt::text(      content[_type == "block"][0...1]    ),  }
+// Query: *[_type == "article" && $slug in categories[]->slug.current && language == $locale] | order(publishedAt desc) [$start...$end] {    _id,    title,    publishedAt,    "slug": slug.current,    "author": author-> {       name,      "slug": slug.current,    },    "mainImage": mainImage.asset->url,    "category": categories[0]->{       name,      "slug": slug.current,    },     "excerpt": pt::text(      content[_type == "block"][0...1]    ),  }
 export type ARTICLES_BY_CATEGORY_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -442,7 +504,7 @@ export type TOTAL_CATEGORY_COUNT_RESULT = number;
 
 // Source: sanity\queries\comments.ts
 // Variable: GET_COMMENTS_BY_ARTICLE
-// Query: *[_type == "comment" && approved == true && article._ref == $_id] | order(_createdAt desc) {     _id,     name,    message,    _createdAt  }
+// Query: *[_type=="comment" && approved==true && article._ref==$_id] | order(_createdAt desc) [$start...$end] {     _id,     name,    message,    _createdAt  }
 export type GET_COMMENTS_BY_ARTICLE_RESULT = Array<{
   _id: string;
   name: string | null;
@@ -450,17 +512,23 @@ export type GET_COMMENTS_BY_ARTICLE_RESULT = Array<{
   _createdAt: string;
 }>;
 
+// Source: sanity\queries\comments.ts
+// Variable: TOTAL_COMMENTS_COUNT
+// Query: count(*[    _type == "comment" &&    approved == true &&    article_ref == $_id  ])
+export type TOTAL_COMMENTS_COUNT_RESULT = number;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_type == "article" && slug.current == $slug][0] {\n    _id,\n    title,\n    publishedAt,\n    "slug": slug.current,\n    "author":author-> {\n      name,\n      "slug": slug.current\n    },\n    "mainImage": {\n    "url": mainImage.asset->url,\n    "caption": mainImage.caption,\n    },\n  "category": categories[0]-> {\n    name, \n    "slug": slug.current,\n    },\n    content,\n  }\n': ARTICLE_BY_SLUG_QUERY_RESULT;
-    '\n  *[_type == "article"] | order(publishedAt desc) [$start...$end] {\n    _id,\n    title,\n    publishedAt,\n    "slug": slug.current,\n    "author":author->{\n      name,\n      "slug": slug.current,\n    },\n    "mainImage": mainImage.asset->url, \n    "excerpt": pt::text(\n      content[_type == "block"][0...1]\n    ),\n    "category": categories[0]-> {\n      name,\n      "slug": slug.current\n      },\n  }\n': ALL_ARTICLES_QUERY_RESULT;
+    '\n  *[_type == "article" && slug.current == $slug && language == $locale][0] {\n    _id,\n    title,\n    publishedAt,\n    "slug": slug.current,\n    "author":author-> {\n      name,\n      "slug": slug.current\n    },\n    "audioUrl": audio.asset->url,\n    "mainImage": {\n    "url": mainImage.asset->url,\n    "caption": mainImage.caption,\n    },\n  "category": categories[0]-> {\n    name, \n    "slug": slug.current,\n    },\n    content,\n  }\n': ARTICLE_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "article" && language == $locale] | order(publishedAt desc) [$start...$end] {\n    _id,\n    title,\n    publishedAt,\n    "slug": slug.current,\n    "author":author->{\n      name,\n      "slug": slug.current,\n    },\n    "mainImage": mainImage.asset->url, \n    "excerpt": pt::text(\n      content[_type == "block"][0...1]\n    ),\n    "category": categories[0]-> {\n      name,\n      "slug": slug.current\n      },\n  }\n': ALL_ARTICLES_QUERY_RESULT;
     'count(*[_type == "article"])': TOTAL_ARTICLES_COUNT_RESULT;
-    '\n  *[_type == "article" && $slug in categories[]->slug.current] | order(publishedAt desc) [$start...$end] {\n    _id,\n    title,\n    publishedAt,\n    "slug": slug.current,\n    "author": author-> { \n      name,\n      "slug": slug.current,\n    },\n    "mainImage": mainImage.asset->url,\n    "category": categories[0]->{ \n      name,\n      "slug": slug.current,\n    }, \n    "excerpt": pt::text(\n      content[_type == "block"][0...1]\n    ),\n  }\n': ARTICLES_BY_CATEGORY_QUERY_RESULT;
+    '\n  *[_type == "article" && $slug in categories[]->slug.current && language == $locale] | order(publishedAt desc) [$start...$end] {\n    _id,\n    title,\n    publishedAt,\n    "slug": slug.current,\n    "author": author-> { \n      name,\n      "slug": slug.current,\n    },\n    "mainImage": mainImage.asset->url,\n    "category": categories[0]->{ \n      name,\n      "slug": slug.current,\n    }, \n    "excerpt": pt::text(\n      content[_type == "block"][0...1]\n    ),\n  }\n': ARTICLES_BY_CATEGORY_QUERY_RESULT;
     '\n  *[_type == "category"] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current\n  }\n': ALL_CATEGORIES_QUERY_RESULT;
     '\n  *[_type == "category" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    description\n  }\n': CATEGORY_BY_SLUG_QUERY_RESULT;
     '\n  count(*[_type == "article" && $slug in categories[]->slug.current])\n': TOTAL_CATEGORY_COUNT_RESULT;
-    '\n  *[_type == "comment" && approved == true && article._ref == $_id] | order(_createdAt desc) { \n    _id, \n    name,\n    message,\n    _createdAt\n  }\n': GET_COMMENTS_BY_ARTICLE_RESULT;
+    '\n  *[_type=="comment" && approved==true && article._ref==$_id] | order(_createdAt desc) [$start...$end] { \n    _id, \n    name,\n    message,\n    _createdAt\n  }\n': GET_COMMENTS_BY_ARTICLE_RESULT;
+    '\n  count(*[\n    _type == "comment" &&\n    approved == true &&\n    article_ref == $_id\n  ])\n': TOTAL_COMMENTS_COUNT_RESULT;
   }
 }
