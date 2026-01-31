@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 
 // --- 1. Single Article ---
 export const ARTICLE_BY_SLUG_QUERY = groq`
-  *[_type == "article" && slug.current == $slug][0] {
+  *[_type == "article" && slug.current == $slug && language == $locale][0] {
     _id,
     title,
     publishedAt,
@@ -26,7 +26,7 @@ export const ARTICLE_BY_SLUG_QUERY = groq`
 
 // --- 2. All Articles (Paginated) ---
 export const ALL_ARTICLES_QUERY = groq`
-  *[_type == "article"] | order(publishedAt desc) [$start...$end] {
+  *[_type == "article" && language == $locale] | order(publishedAt desc) [$start...$end] {
     _id,
     title,
     publishedAt,
@@ -50,7 +50,7 @@ export const TOTAL_ARTICLES_COUNT = groq`count(*[_type == "article"])`;
 
 // --- 3. Articles by Category (Paginated) ---
 export const ARTICLES_BY_CATEGORY_QUERY = groq`
-  *[_type == "article" && $slug in categories[]->slug.current] | order(publishedAt desc) [$start...$end] {
+  *[_type == "article" && $slug in categories[]->slug.current && language == $locale] | order(publishedAt desc) [$start...$end] {
     _id,
     title,
     publishedAt,

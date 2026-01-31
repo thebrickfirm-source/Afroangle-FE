@@ -12,6 +12,7 @@ import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schemaTypes } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
+import { documentInternationalization } from "@sanity/document-internationalization";
 
 export default defineConfig({
   basePath: "/admin",
@@ -26,5 +27,14 @@ export default defineConfig({
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
+    documentInternationalization({
+      supportedLanguages: [
+        { id: "en", title: "English" },
+        { id: "fr", title: "French" },
+      ],
+      schemaTypes: ["article", "comment"], // add your home singleton type here
+      languageField: "language",
+      bulkPublish: true,
+    }),
   ],
 });

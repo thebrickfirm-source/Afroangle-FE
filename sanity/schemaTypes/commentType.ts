@@ -13,6 +13,13 @@ export const commentType = defineType({
       type: "string",
     }),
     defineField({
+      name: "language",
+      type: "string",
+      title: "Language",
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: "email",
       title: "Email",
       type: "string",

@@ -21,14 +21,25 @@ function blocksToText(blocks: any[] = []) {
   return blocks
     .map((block) => {
       if (block._type !== "block" || !block.children) return "";
-      return block.children.map((child: any) => child.text).join("");
+
+      // --- Handle Lists ---
+      let prefix = "";
+      if (block.listItem === "bullet") {
+        prefix = "• "; // Adds a bullet point for TTS pause/emphasis
+      } else if (block.listItem === "number") {
+        prefix = "1. "; // Adds a generic number (simplest approach for flat maps)
+      }
+
+      const content = block.children.map((child: any) => child.text).join("");
+
+      return `${prefix}${content}`;
     })
     .join("\n\n");
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { postId, body } = await req.json();
+    const { postId, body, title, author } = await req.json();
 
     if (!postId || !body) {
       return NextResponse.json(
@@ -37,8 +48,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // A. Prepare Text
-    const textToSpeak = blocksToText(body);
+    const bodyText = blocksToText(body);
+    // A. Prepare Text'
+    const textToSpeak = `${title || ""}. ${author ? `Written by ${author}.` : ""} \n\n${bodyText}`;
 
     // Safety check to save money
     if (textToSpeak.length < 50) {
@@ -47,7 +59,6 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
-
     // B. Call ElevenLabs API
     // "Rachel" Voice ID: 21m00Tcm4TlvDq8ikWAM (Standard English Voice)
     const audioStream = await elevenLabs.textToSpeech.convert(

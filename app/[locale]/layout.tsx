@@ -1,0 +1,78 @@
+import type { Metadata } from "next";
+import { Rokkitt, Kumbh_Sans } from "next/font/google";
+import Header from "@/components/common/Header";
+import { notFound } from "next/navigation";
+import { isLocale } from "@/i18n/locales";
+import Footer from "@/components/common/Footer";
+
+const rokkitt = Rokkitt({
+  variable: "--font-rokkitt",
+  subsets: ["latin"],
+});
+
+const kumbhSans = Kumbh_Sans({
+  variable: "--font-kumbh-sans",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://afroangle.com"),
+
+  title: {
+    default: "Afroangle",
+    template: "%s | Afroangle",
+  },
+
+  description: "The African lens for global issues",
+
+  openGraph: {
+    type: "website",
+    url: "https://afroangle.com",
+    siteName: "Afroangle",
+    title: "Afroangle",
+    description: "The African lens for global issues",
+    images: [
+      {
+        url: "/public/og-image.png", // must exist in /public
+        width: 1200,
+        height: 630,
+        alt: "Afroangle",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Afroangle",
+    description: "The African lens for global issues",
+    images: ["/public/og-image.png"],
+    // creator: "@yourtwitterhandle", // optional
+  },
+
+  icons: {
+    icon: "/app/icon.png",
+  },
+};
+
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
+  if (!isLocale(locale)) notFound();
+
+  return (
+    <html lang={locale}>
+      <body className={`${rokkitt.variable} ${kumbhSans.variable} antialiased`}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}

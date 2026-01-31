@@ -21,17 +21,17 @@ export async function getAllCategories(): Promise<ALL_CATEGORIES_QUERY_RESULT> {
   return await client.fetch(
     ALL_CATEGORIES_QUERY,
     {},
-    { next: { revalidate: 3600 } }
+    { next: { revalidate: 3600 } },
   );
 }
 
 // get category by slug
 export async function getCategoryBySlug(
-  slug: string
+  slug: string,
 ): Promise<CATEGORY_BY_SLUG_QUERY_RESULT | null> {
   return await client.fetch(
     CATEGORY_BY_SLUG_QUERY,
     { slug },
-    { next: { revalidate: 3600 } } // Cache for 1 hour
+    { next: { revalidate: 3600 } }, // Cache for 1 hour
   );
 }
