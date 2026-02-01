@@ -71,7 +71,10 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
   return (
     <>
       {/* 1. Trigger Button */}
-      <div onClick={handleOpen} className="inline-block cursor-pointer">
+      <div
+        onClick={handleOpen}
+        className="lg:inline-block cursor-pointer hidden"
+      >
         {trigger || (
           <div className="slant-bottom-right p-px bg-primary-green w-full">
             <button className="slant-bottom-right w-full py-4 pr-8 pl-6 leading-none bg-white text-primary-green font-secondary transition-colors hover:bg-primary-green hover:text-white">
