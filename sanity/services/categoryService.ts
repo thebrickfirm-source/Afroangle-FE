@@ -31,7 +31,7 @@ export async function getCategoryBySlug(
 ): Promise<CATEGORY_BY_SLUG_QUERY_RESULT | null> {
   return await client.fetch(
     CATEGORY_BY_SLUG_QUERY,
-    { slug },
+    { slug }, // Default to English locale if not provided
     { next: { revalidate: 3600 } }, // Cache for 1 hour
   );
 }

@@ -5,13 +5,14 @@ import { Metadata } from "next";
 interface CategoryPageProps {
   params: Promise<{
     slug: string;
+    locale: string;
   }>;
 }
 
 export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const category = await getCategoryBySlug(slug);
 
   if (!category) {
@@ -30,10 +31,10 @@ export async function generateMetadata({
   };
 }
 const Category = async ({ params }: CategoryPageProps) => {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   return (
     <main className="">
-      <CategoryPage slug={slug} />
+      <CategoryPage slug={slug} locale={locale} />
     </main>
   );
   s;

@@ -5,14 +5,15 @@ import { Metadata } from "next";
 import ArticlePageContent from "@/components/ArticlePage";
 
 interface ArticlePageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const { slug, locale } = await params;
+  console.log(locale);
+  const article = await getArticleBySlug(slug, locale);
   console.log(article);
   if (!article) {
     return {
@@ -32,8 +33,8 @@ export async function generateMetadata({
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const { slug, locale } = await params;
+  const article = await getArticleBySlug(slug, locale);
   if (!article) {
     notFound();
   }

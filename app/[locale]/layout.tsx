@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "The African lens for global issues",
     images: [
       {
-        url: "/public/og-image.png", // must exist in /public
+        url: "/og-image.png", // must exist in /public
         width: 1200,
         height: 630,
         alt: "Afroangle",

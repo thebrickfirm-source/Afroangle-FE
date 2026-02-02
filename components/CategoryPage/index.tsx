@@ -9,12 +9,18 @@ import {
   getCategoryBySlug,
 } from "@/sanity/services/categoryService";
 
-const CategoryPage = async ({ slug }: { slug: string }) => {
+const CategoryPage = async ({
+  slug,
+  locale,
+}: {
+  slug: string;
+  locale: string;
+}) => {
   // 2. Fetch data in parallel for performance
   const [categories, categoryData, articlesResponse] = await Promise.all([
     getAllCategories(), // For the Nav
     getCategoryBySlug(slug), // For the Info Header (Title/Desc)
-    getArticlesByCategory(slug), // For the Content
+    getArticlesByCategory(slug, locale), // For the Content
   ]);
   // 3. Handle 404s if the category doesn't exist in Sanity
   if (!categoryData) {
