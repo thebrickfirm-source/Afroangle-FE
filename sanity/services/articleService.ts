@@ -25,8 +25,8 @@ const DEFAULT_LIMIT = 10;
 
 // --- 1. Get All Articles (Paginated) ---
 export async function getAllArticles(
-  page: number = 1,
   locale: string,
+  page: number = 1,
   limit: number = DEFAULT_LIMIT,
 ): Promise<PaginatedResponse<ALL_ARTICLES_QUERY_RESULT>> {
   const start = (page - 1) * limit;
@@ -53,9 +53,9 @@ export async function getAllArticles(
 // --- 2. Get Articles By Category (Paginated) ---
 export async function getArticlesByCategory(
   slug: string,
+  locale: string,
   page: number = 1,
   limit: number = DEFAULT_LIMIT,
-  locale: string,
 ): Promise<PaginatedResponse<ARTICLES_BY_CATEGORY_QUERY_RESULT>> {
   const start = (page - 1) * limit;
   const end = start + limit;
