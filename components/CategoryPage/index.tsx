@@ -44,7 +44,7 @@ const CategoryPage = async ({
       {articles.length > 0 && <ArticleSpotlight article={articles[0]} />}
 
       <div className="border-t border-t-black/30">
-        <div className="max-w-screen-xl mx-auto lg:px-16 px-4 py-12">
+        <div className="max-w-screen-xl mx-auto lg:px-16 px-4 pt-12">
           {articles.length > 0 ? (
             <ArticleList
               heading={`Read more of ${categoryData.name}`}
@@ -53,7 +53,7 @@ const CategoryPage = async ({
               articles={articles.slice(1)}
             />
           ) : (
-            <p className="text-center text-gray-500 py-10">
+            <p className="text-center text-gray-600 py-10">
               No articles found in this category yet.
             </p>
           )}

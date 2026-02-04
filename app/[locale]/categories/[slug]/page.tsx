@@ -37,7 +37,6 @@ const Category = async ({ params }: CategoryPageProps) => {
       <CategoryPage slug={slug} locale={locale} />
     </main>
   );
-  s;
 };
 
 export default Category;
