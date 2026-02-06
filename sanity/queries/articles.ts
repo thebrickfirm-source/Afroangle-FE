@@ -69,3 +69,24 @@ export const ARTICLES_BY_CATEGORY_QUERY = groq`
     ),
   }
 `;
+
+export const ARTICLES_BY_AUTHOR_QUERY = groq`
+  *[_type == "article" && $slug in author -> slug.current && language == $locale] | order(publishedAt desc) [$start...$end] { 
+   _id,
+    title,
+    publishedAt,
+    "slug": slug.current,
+    "author": author-> { 
+      name,
+      "slug": slug.current,
+    },
+    "mainImage": mainImage.asset->url,  
+    "category": categories[0]->{ 
+      name,
+      "slug": slug.current,
+    }, 
+    "excerpt": pt::text(
+      content[_type == "block"][0...1]
+    ),
+  }
+`;

@@ -82,7 +82,7 @@ export const articleType = defineType({
           ],
         },
         { type: "videoEmbed" },
-        { type: "twitterEmbed" },
+        // { type: "twitterEmbed" },
       ],
     }),
     defineField({
@@ -112,19 +112,19 @@ export const articleType = defineType({
     }),
   ],
   // Added: Preview configuration
-  // preview: {
-  //   select: {
-  //     title: "title",
-  //     // We use the arrow syntax (->) to "follow" the reference and grab the name
-  //     author: "author->name",
-  //     media: "mainImage",
-  //   },
-  //   prepare(selection) {
-  //     const { author } = selection;
-  //     return {
-  //       ...selection,
-  //       subtitle: author && `by ${author}`, // Displays "by [Author Name]"
-  //     };
-  //   },
-  // },
+  preview: {
+    select: {
+      title: "title",
+      // We use the arrow syntax (->) to "follow" the reference and grab the name
+      author: "author->name",
+      media: "mainImage",
+    },
+    prepare(selection) {
+      const { author } = selection;
+      return {
+        ...selection,
+        subtitle: author && `by ${author}`, // Displays "by [Author Name]"
+      };
+    },
+  },
 });

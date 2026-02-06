@@ -15,29 +15,46 @@ export const authorType = defineType({
     }),
     defineField({
       name: "slug",
-      title: "slug",
+      title: "Slug",
       type: "slug",
-      options: { source: "name" },
+      options: {
+        source: "name",
+        maxLength: 96,
+        // Ensures uniqueness for this document type
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "image",
-      title: "Profile Image",
+      title: "Profile image",
       type: "image",
       options: { hotspot: true },
       fields: [
-        {
-          name: "caption",
-          title: "Caption/Alt Text",
+        defineField({
+          name: "alt",
+          title: "Alt text",
           type: "string",
-        },
+          validation: (Rule) => Rule.required().min(5),
+        }),
       ],
     }),
     defineField({
       name: "bio",
       title: "Bio",
       type: "text",
-      validation: (Rule) => Rule.required(),
+      rows: 4,
+      validation: (Rule) => Rule.required().min(20),
+    }),
+
+    // Scalable socials field
+    defineField({
+      name: "socials",
+      title: "Social links",
+      type: "array",
+      of: [{ type: "socialLink" }],
+      validation: (Rule) => Rule.unique().max(10),
+      description: "Add the platforms you want to show for this author.",
     }),
   ],
 });
