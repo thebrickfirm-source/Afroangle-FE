@@ -3,13 +3,21 @@ import ArticleList from "../ArticleList";
 import AuthorHero from "./AuthorHero";
 import AuthorNav from "./AuthorNav";
 
-const AuthorPageContent = async ({ author }: any) => {
-  const articles = (await getArticlesByAuthor(author.name, "en")).data;
+interface AuthorPageContentProps {
+  author: any;
+  locale: string;
+}
+const AuthorPageContent = async ({
+  author,
+  locale,
+}: AuthorPageContentProps) => {
+  console.log(author);
+  const articles = (await getArticlesByAuthor(author._id, locale)).data;
   return (
     <main className="">
       <AuthorNav />
       <AuthorHero author={author} />
-      <section className="max-w-screen-xl mx-auto px-4 lg:px-24">
+      <section className="max-w-screen-xl mx-auto lg:px-24">
         <ArticleList
           articles={articles}
           heading={`READ MORE FROM ${author.name}`}

@@ -96,7 +96,7 @@ export async function getArticleBySlug(
 
 // 4. Get Articles by author
 export async function getArticlesByAuthor(
-  slug: string,
+  authorId: string,
   locale: string,
   page: number = 1,
   limit: number = DEFAULT_LIMIT,
@@ -107,13 +107,13 @@ export async function getArticlesByAuthor(
   const [data, total] = await Promise.all([
     client.fetch(
       ARTICLES_BY_AUTHOR_QUERY,
-      { slug, locale, start, end },
-      { next: { revalidate: 3600 } },
+      { authorId, locale, start, end },
+      { next: { revalidate: 10 } },
     ),
     client.fetch(
       ARTICLES_IN_AUTHOR_COUNT,
-      { slug },
-      { next: { revalidate: 3600 } },
+      { authorId, locale },
+      { next: { revalidate: 10 } },
     ),
   ]);
 

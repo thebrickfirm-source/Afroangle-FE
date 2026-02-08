@@ -54,7 +54,7 @@ export const authorType = defineType({
       type: "array",
       of: [{ type: "socialLink" }],
       validation: (Rule) => Rule.unique().max(10),
-      description: "Add the platforms you want to show for this author.",
+      description: "Add the platforms this Author is active.",
     }),
   ],
 });

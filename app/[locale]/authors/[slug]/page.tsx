@@ -37,5 +37,5 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     notFound();
   }
 
-  return <AuthorPageContent author={author} />;
+  return <AuthorPageContent author={author} locale={locale} />;
 }

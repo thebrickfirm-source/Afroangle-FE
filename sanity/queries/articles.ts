@@ -71,7 +71,7 @@ export const ARTICLES_BY_CATEGORY_QUERY = groq`
 `;
 
 export const ARTICLES_BY_AUTHOR_QUERY = groq`
-  *[_type == "article" && $slug in author -> slug.current && language == $locale] | order(publishedAt desc) [$start...$end] { 
+  *[_type == "article" && author._ref == $authorId && language == $locale] | order(publishedAt desc) [$start...$end] { 
    _id,
     title,
     publishedAt,
