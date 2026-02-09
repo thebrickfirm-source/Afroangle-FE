@@ -10,9 +10,9 @@ const DEFAULT_LIMIT = 5;
 
 export async function getArticleComments(
   articleId: string,
+  locale: string,
   page: number = 1,
   limit: number = DEFAULT_LIMIT,
-  locale: string,
 ): Promise<PaginatedResponse<GET_COMMENTS_BY_ARTICLE_RESULT>> {
   // Replace 'Comment' with your actual Type interface
   const start = (page - 1) * limit;
@@ -21,12 +21,12 @@ export async function getArticleComments(
     client.fetch(
       GET_COMMENTS_BY_ARTICLE,
       { _id: articleId, start, end },
-      { next: { revalidate: 120 } }, // Reduced to 60s so new comments appear faster than 1hr
+      { next: { revalidate: 10 } }, // Reduced to 60s so new comments appear faster than 1hr
     ),
     client.fetch(
       TOTAL_COMMENTS_COUNT,
       { _id: articleId },
-      { next: { revalidate: 120 } },
+      { next: { revalidate: 10 } },
     ),
   ]);
 

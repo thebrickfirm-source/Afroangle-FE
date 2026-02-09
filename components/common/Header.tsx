@@ -21,7 +21,7 @@ const Header = () => {
             The African lens for all global issues
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <OpinionSubmissionModal />
           <NewsletterModal />
         </div>

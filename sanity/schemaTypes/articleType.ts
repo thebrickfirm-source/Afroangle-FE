@@ -82,7 +82,7 @@ export const articleType = defineType({
           ],
         },
         { type: "videoEmbed" },
-        { type: "twitterEmbed" },
+        // { type: "twitterEmbed" },
       ],
     }),
     defineField({
@@ -111,7 +111,7 @@ export const articleType = defineType({
       readOnly: true,
     }),
   ],
-  // Added: Preview configuration
+  // // Added: Preview configuration
   // preview: {
   //   select: {
   //     title: "title",

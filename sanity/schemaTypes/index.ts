@@ -4,6 +4,7 @@ import { authorType } from "./authorType";
 import { categoryType } from "./categoryType";
 import { twitterEmbed } from "./twitterEmbed";
 import { videoEmbed } from "./videoEmbed";
+import { socialLinkType } from "./socialLink";
 export const schemaTypes = [
   articleType,
   authorType,
@@ -11,4 +12,5 @@ export const schemaTypes = [
   commentType,
   twitterEmbed,
   videoEmbed,
+  socialLinkType,
 ];

@@ -3,7 +3,7 @@ import { defineType, defineField } from "sanity";
 export const videoEmbed = defineType({
   name: "videoEmbed",
   type: "object",
-  title: "Video Embed",
+  title: "Online Video",
   fields: [
     defineField({
       name: "url",
