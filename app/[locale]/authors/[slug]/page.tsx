@@ -12,7 +12,6 @@ export async function generateMetadata({
 }: AuthorPageProps): Promise<Metadata> {
   const { slug, locale } = await params;
   const author = await getAuthorBySlug(slug);
-  console.log(author);
   if (!author) {
     return {
       title: "Author does not exist",
@@ -36,6 +35,5 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   if (!author) {
     notFound();
   }
-
   return <AuthorPageContent author={author} locale={locale} />;
 }

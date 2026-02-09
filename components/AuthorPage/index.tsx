@@ -11,7 +11,6 @@ const AuthorPageContent = async ({
   author,
   locale,
 }: AuthorPageContentProps) => {
-  console.log(author);
   const articles = (await getArticlesByAuthor(author._id, locale)).data;
   return (
     <main className="">
