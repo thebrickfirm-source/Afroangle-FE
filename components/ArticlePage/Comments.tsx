@@ -7,7 +7,7 @@ interface CommentsProps {
 const Comments = async ({ id }: CommentsProps) => {
   const comments = (await getArticleComments(id)).data;
   return (
-    <div className="max-w-3xl mt-8 w-full mx-auto space-y-8">
+    <div className="max-w-3xl mt-8 w-full mx-auto space-y-6">
       <h5 className="uppercase text-2xl text-primary-red leading-none">
         Comments
       </h5>

@@ -18,6 +18,6 @@ export const CATEGORY_BY_SLUG_QUERY = groq`
   }
 `;
 
-export const TOTAL_CATEGORY_COUNT = groq`
+export const ARTICLES_IN_CATEGORY_COUNT = groq`
   count(*[_type == "article" && $slug in categories[]->slug.current])
 `;

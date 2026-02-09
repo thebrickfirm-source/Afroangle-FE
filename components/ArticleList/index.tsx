@@ -16,7 +16,7 @@ const ArticleList = async ({
   return (
     <section className={`w-full max-w-5xl px-4 ${center ? "mx-auto" : ""}`}>
       <div className={`${center ? "text-center" : ""} space-y-3 mb-8 lg:mb-14`}>
-        <h2 className="text-2xl lg:text-3xl tracking-widest mb-0 lg:mb-2">
+        <h2 className="text-2xl lg:text-3xl tracking-widest mb-0 lg:mb-2 uppercase">
           {heading}
         </h2>
         <p className="text-lg lg:text-xl">{subheading}</p>

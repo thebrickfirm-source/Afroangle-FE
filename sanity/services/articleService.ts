@@ -4,14 +4,15 @@ import {
   TOTAL_ARTICLES_COUNT,
   ARTICLES_BY_CATEGORY_QUERY,
   ARTICLE_BY_SLUG_QUERY,
+  ARTICLES_BY_AUTHOR_QUERY,
 } from "../queries/articles";
-// Use your existing Article type here
-import { TOTAL_CATEGORY_COUNT } from "../queries/categories";
 import {
   ALL_ARTICLES_QUERY_RESULT,
   ARTICLE_BY_SLUG_QUERY_RESULT,
   ARTICLES_BY_CATEGORY_QUERY_RESULT,
 } from "../types";
+import { ARTICLES_IN_CATEGORY_COUNT } from "../queries/categories";
+import { ARTICLES_IN_AUTHOR_COUNT } from "../queries/authors";
 
 // Helper Interface for Pagination
 export interface PaginatedResponse<T> {
@@ -25,8 +26,8 @@ const DEFAULT_LIMIT = 10;
 
 // --- 1. Get All Articles (Paginated) ---
 export async function getAllArticles(
-  page: number = 1,
   locale: string,
+  page: number = 1,
   limit: number = DEFAULT_LIMIT,
 ): Promise<PaginatedResponse<ALL_ARTICLES_QUERY_RESULT>> {
   const start = (page - 1) * limit;
@@ -53,9 +54,9 @@ export async function getAllArticles(
 // --- 2. Get Articles By Category (Paginated) ---
 export async function getArticlesByCategory(
   slug: string,
+  locale: string,
   page: number = 1,
   limit: number = DEFAULT_LIMIT,
-  locale: string,
 ): Promise<PaginatedResponse<ARTICLES_BY_CATEGORY_QUERY_RESULT>> {
   const start = (page - 1) * limit;
   const end = start + limit;
@@ -67,7 +68,7 @@ export async function getArticlesByCategory(
       { next: { revalidate: 3600 } },
     ),
     client.fetch(
-      TOTAL_CATEGORY_COUNT,
+      ARTICLES_IN_CATEGORY_COUNT,
       { slug },
       { next: { revalidate: 3600 } },
     ),
@@ -91,4 +92,35 @@ export async function getArticleBySlug(
     { slug, locale },
     { next: { revalidate: 10 } },
   );
+}
+
+// 4. Get Articles by author
+export async function getArticlesByAuthor(
+  authorId: string,
+  locale: string,
+  page: number = 1,
+  limit: number = DEFAULT_LIMIT,
+): Promise<PaginatedResponse<ARTICLES_BY_CATEGORY_QUERY_RESULT>> {
+  const start = (page - 1) * limit;
+  const end = start + limit;
+
+  const [data, total] = await Promise.all([
+    client.fetch(
+      ARTICLES_BY_AUTHOR_QUERY,
+      { authorId, locale, start, end },
+      { next: { revalidate: 10 } },
+    ),
+    client.fetch(
+      ARTICLES_IN_AUTHOR_COUNT,
+      { authorId, locale },
+      { next: { revalidate: 10 } },
+    ),
+  ]);
+
+  return {
+    data,
+    total,
+    currentPage: page,
+    totalPages: Math.ceil(total / limit),
+  };
 }
