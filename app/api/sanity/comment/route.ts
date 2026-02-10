@@ -96,7 +96,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "Comment submitted" }, { status: 200 });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     return NextResponse.json(
       { message: "Error submitting comment" },
       { status: 500 },

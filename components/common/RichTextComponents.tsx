@@ -2,6 +2,8 @@
 import { PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image"; // Ensure you have this helper
+import ReactPlayer from "react-player";
+import { Tweet } from "react-tweet";
 
 export const RichTextComponents: PortableTextComponents = {
   // 1. Customizing Block types (Headers, Paragraphs)
@@ -47,24 +49,46 @@ export const RichTextComponents: PortableTextComponents = {
         </div>
       );
     },
+    videoEmbed: ({ value }) => {
+      const { url, videoFileUrl } = value;
+      const source = url || videoFileUrl;
+
+      if (!source) return null;
+
+      return (
+        <div className="my-10 w-full overflow-hidden rounded-xl bg-black aspect-video shadow-md">
+          <ReactPlayer
+            src={source}
+            width="100%"
+            height="100%"
+            controls
+            light={false} // Set to true if you want a thumbnail placeholder
+          />
+        </div>
+      );
+    },
+    socialEmbed: ({ value }) => {
+      const { url } = value;
+      if (!url) return null;
+
+      // Extract ID for Twitter/X
+      if (url.includes("twitter.com") || url.includes("x.com")) {
+        const id = url.split("/").pop()?.split("?")[0];
+        return (
+          <div className="flex justify-center my-6" data-theme="light">
+            <Tweet id={id as string} />
+          </div>
+        );
+      }
+      // Fallback for other links
+      return (
+        <a href={url} target="_blank" className="text-blue-500 italic">
+          View external post
+        </a>
+      );
+    },
   },
-  // videoEmbed: ({ value }) => {
-  //   const { url } = value;
-  //   // Using react-player handles Youtube, Vimeo, etc. automatically
-  //   return (
-  //     <div className="my-8 relative pt-[56.25%]">
-  //       {" "}
-  //       {/* 16:9 Aspect Ratio container */}
-  //       <ReactPlayer
-  //         url={url}
-  //         className="absolute top-0 left-0"
-  //         width="100%"
-  //         height="100%"
-  //         controls
-  //       />
-  //     </div>
-  //   );
-  // },
+
   // 4. Customizing Links (The "marks" property)
   marks: {
     link: ({ children, value }) => {

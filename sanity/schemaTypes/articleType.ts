@@ -1,74 +1,55 @@
-import { GenerateAudioInput } from "@/components/common/GenerateAudio";
-import { DocumentIcon } from "@sanity/icons";
+import {
+  DocumentIcon,
+  ComposeIcon,
+  ThListIcon,
+  ImageIcon,
+} from "@sanity/icons";
 import { defineType, defineField } from "sanity";
+import { GenerateAudioInput } from "@/components/common/GenerateAudio";
 
 export const articleType = defineType({
   name: "article",
   title: "Article",
   type: "document",
   icon: DocumentIcon,
+  groups: [
+    { name: "content", title: "Content", icon: ComposeIcon },
+    { name: "meta", title: "Meta & SEO", icon: ThListIcon },
+    { name: "media", title: "Media", icon: ImageIcon },
+  ],
   fields: [
     defineField({
-      name: "language",
-      type: "string",
-      title: "Language",
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
       name: "title",
-      title: "Title",
       type: "string",
+      group: "content",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
-      title: "Slug",
       type: "slug",
-      options: { source: "title" },
+      group: "content",
+      options: {
+        source: "title",
+        maxLength: 96,
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "author",
-      title: "Author",
       type: "reference",
+      group: "meta",
       to: [{ type: "author" }],
       options: { disableNew: true },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "categories",
-      title: "Categories (ordered by importance)",
-      type: "array",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "category" }],
-        },
-      ],
-      validation: (Rule) => Rule.required().min(1),
-    }),
-    defineField({
-      name: "mainImage",
-      title: "Main Image",
-      type: "image",
-      options: { hotspot: true },
-      fields: [
-        {
-          name: "caption",
-          title: "Caption/Alt Text",
-          type: "string",
-          validation: (Rule) => Rule.required(),
-        },
-      ],
-    }),
-    defineField({
       name: "content",
-      title: "Content",
+      title: "Body Content",
       type: "array",
+      group: "content",
       of: [
         { type: "block" },
-        // Fixed: Expanded inline image to allow Alt Text
         {
           type: "image",
           options: { hotspot: true },
@@ -82,49 +63,61 @@ export const articleType = defineType({
           ],
         },
         { type: "videoEmbed" },
-        // { type: "twitterEmbed" },
+        // Added: Flexible Social Embed
+        {
+          type: "object",
+          name: "socialEmbed",
+          title: "Social Media Post",
+          fields: [
+            defineField({
+              name: "url",
+              type: "url",
+              title: "Post URL",
+              description: "Paste link from X (Twitter), Instagram, etc.",
+            }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "mainImage",
+      type: "image",
+      group: "media",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "caption",
+          type: "string",
+          title: "Caption/Alt Text",
+          validation: (Rule) => Rule.required(),
+        },
       ],
     }),
     defineField({
       name: "audio",
-      title: "Audio Form",
       type: "file",
-      description: "Generate an AI audio version of this article.",
-      components: {
-        input: GenerateAudioInput,
-      },
-      options: {
-        accept: "audio/mpeg",
-      },
+      group: "media",
+      components: { input: GenerateAudioInput },
+      options: { accept: "audio/mpeg" },
+    }),
+    defineField({
+      name: "categories",
+      type: "array",
+      group: "meta",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+      validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: "publishedAt",
-      title: "Published at",
       type: "datetime",
+      group: "meta",
       initialValue: () => new Date().toISOString(),
     }),
     defineField({
-      name: "comments",
-      title: "Comments",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "comment" }] }],
+      name: "language",
+      type: "string",
       readOnly: true,
+      hidden: true,
     }),
   ],
-  // // Added: Preview configuration
-  // preview: {
-  //   select: {
-  //     title: "title",
-  //     // We use the arrow syntax (->) to "follow" the reference and grab the name
-  //     author: "author->name",
-  //     media: "mainImage",
-  //   },
-  //   prepare(selection) {
-  //     const { author } = selection;
-  //     return {
-  //       ...selection,
-  //       subtitle: author && `by ${author}`, // Displays "by [Author Name]"
-  //     };
-  //   },
-  // },
 });
