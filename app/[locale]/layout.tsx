@@ -32,10 +32,10 @@ export const metadata: Metadata = {
     siteName: "Afroangle",
     title: "Afroangle - The African lens for global issues",
     description:
-      "The Afroangle publication believes that great journalism has the power to make each reader's life richer and more fulfilling, and all of society stronger and more just.",
+      "We believe that great journalism has the power to make each reader's life richer and more fulfilling, and all of society stronger and more just.",
     images: [
       {
-        url: "/og-image.jpeg", // Located at: public/og-image.png
+        url: "/og-image.jpg", // Located at: public/og-image.png
         width: 1200,
         height: 630,
         alt: "Afroangle - The African lens for global issues",
@@ -47,13 +47,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Afroangle - The African lens for global issues",
     description:
-      "The Afroangle publication believes that great journalism has the power to make each reader's life richer and more fulfilling, and all of society stronger and more just.",
-    images: ["/og-image.jpeg"], // Removed /public/
+      "We believe that great journalism has the power to make each reader's life richer and more fulfilling, and all of society stronger and more just.",
+    images: ["/og-image.jpg"], // Removed /public/
   },
 
   icons: {
     // If icon is in public folder
-    icon: "/favicon.ico",
+    icon: "/icon.png",
     // Or if using the Next.js specialized icon file in the app dir,
     // you don't even need to include it in the metadata object;
     // just name it icon.png inside the [locale] folder.

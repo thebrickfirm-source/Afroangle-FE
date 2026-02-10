@@ -1,4 +1,4 @@
-import { CommentIcon } from "@sanity/icons";
+import { CommentIcon, ThumbsUpIcon } from "@sanity/icons";
 import { defineType, defineField } from "sanity";
 
 export const commentType = defineType({
@@ -8,9 +8,38 @@ export const commentType = defineType({
   icon: CommentIcon,
   fields: [
     defineField({
+      name: "approved",
+      title: "Approved",
+      type: "boolean",
+      description: "Only approved comments will show on the live site",
+      initialValue: true,
+    }),
+    defineField({
       name: "name",
-      title: "Name",
+      title: "name",
       type: "string",
+      readOnly: true, // Usually set by the frontend form
+    }),
+    defineField({
+      name: "email",
+      title: "Email Address",
+      type: "string",
+      readOnly: true,
+    }),
+    defineField({
+      name: "message",
+      title: "Comment Message",
+      type: "text",
+      rows: 4,
+    }),
+    defineField({
+      name: "article",
+      title: "Related Article",
+      type: "reference",
+      to: [{ type: "article" }],
+      options: {
+        disableNew: true,
+      },
     }),
     defineField({
       name: "language",
@@ -19,27 +48,20 @@ export const commentType = defineType({
       readOnly: true,
       hidden: true,
     }),
-    defineField({
-      name: "email",
-      title: "Email",
-      type: "string",
-    }),
-    defineField({
-      name: "message",
-      title: "Message",
-      type: "text",
-    }),
-    defineField({
-      name: "article",
-      title: "Article",
-      type: "reference",
-      to: [{ type: "article" }],
-    }),
-    defineField({
-      name: "approved",
-      title: "Approved",
-      type: "boolean",
-      initialValue: true,
-    }),
   ],
+  // This section ensures you can see the Article title and Commenter name in the Sanity list
+  preview: {
+    select: {
+      title: "name",
+      subtitle: "article.title",
+      approved: "approved",
+    },
+    prepare({ title, subtitle, approved }) {
+      return {
+        title: `${title || "Anonymous"}`,
+        subtitle: `On: ${subtitle || "Unknown Article"}`,
+        media: approved ? ThumbsUpIcon : CommentIcon,
+      };
+    },
+  },
 });

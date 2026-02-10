@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
       message: "Audio generated and saved",
     });
   } catch (error: any) {
-    console.error("Audio Gen Error:", error);
+    // console.error("Audio Gen Error:", error);
     return NextResponse.json(
       { success: false, message: error.message || "Internal Server Error" },
       { status: 500 },
