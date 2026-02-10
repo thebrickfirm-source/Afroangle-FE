@@ -12,9 +12,7 @@ export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug, locale } = await params;
-  console.log(locale);
   const article = await getArticleBySlug(slug, locale);
-  console.log(article);
   if (!article) {
     return {
       title: "Article Not Found",
