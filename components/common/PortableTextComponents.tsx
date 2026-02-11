@@ -1,27 +1,31 @@
 import { PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image"; // Ensure you have this helper
+import { urlFor } from "@/sanity/lib/image";
 import ReactPlayer from "react-player";
-import { Tweet } from "react-tweet";
-
+import SocialEmbedWrapper from "./SocialEmbedWrapper";
 export const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
       return (
-        <>
-          <div className="relative w-full h-100 my-4">
-            {/* Uses Next.js Image for optimization */}
+        <figure className="my-4 lg:my-6 w-full flex flex-col items-center">
+          {/* Image Container */}
+          <div className="relative w-full h-80 lg:h-112 overflow-hidden">
             <Image
               src={urlFor(value).url()}
               alt={value.alt || "Article Image"}
               fill
-              className="object-contain w-full"
+              className="object-contain" // object-contain is best for keeping aspect ratio visible
+              sizes="(max-width: 1024px) 100vw, 800px" // Improves performance/LCP
             />
           </div>
-          <p className="mt-3 w-full font-secondary text-sm text-center capitalize">
-            {value.alt}
-          </p>
-        </>
+
+          {/* Caption */}
+          {value.alt && (
+            <figcaption className="mt-1 w-full max-w-3xl px-4 font-secondary text-sm text-center text-gray-700 leading-relaxed capitalize">
+              {value.alt}
+            </figcaption>
+          )}
+        </figure>
       );
     },
     videoUpload: ({ value }) => {
@@ -31,7 +35,7 @@ export const components: PortableTextComponents = {
       if (!source) return null;
 
       return (
-        <div className="my-10 w-full overflow-hidden rounded-xl bg-black aspect-video shadow-md">
+        <div className="my-4 lg:my-6 w-full overflow-hidden items-center flex aspect-video shadow-md rounded-md">
           <ReactPlayer
             src={source}
             width="100%"
@@ -43,26 +47,10 @@ export const components: PortableTextComponents = {
       );
     },
     socialMediaPost: ({ value }) => {
-      const { url } = value;
-      if (!url) return null;
-
-      // Extract ID for Twitter/X
-      if (url.includes("twitter.com") || url.includes("x.com")) {
-        const id = url.split("/").pop()?.split("?")[0];
-        return (
-          <div className="flex justify-center my-6" data-theme="light">
-            <Tweet id={id as string} />
-          </div>
-        );
-      }
-      // Fallback for other links
-      return (
-        <a href={url} target="_blank" className="text-blue-500 italic">
-          View external post
-        </a>
-      );
+      return <SocialEmbedWrapper url={value.url} />;
     },
   },
+
   // 1. Customizing Block types (Headers, Paragraphs)
   block: {
     h1: ({ children }) => (
