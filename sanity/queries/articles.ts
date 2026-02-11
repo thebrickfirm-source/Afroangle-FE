@@ -20,7 +20,24 @@ export const ARTICLE_BY_SLUG_QUERY = groq`
     name, 
     "slug": slug.current,
     },
-    content,
+   "content": content[]{
+      ...,
+
+      // ✅ Portable Text images
+      _type == "image" => {
+        alt,
+        "url": asset->url
+      },
+
+      // ✅ Uploaded video (file) + optional external URL
+      _type == "videoUpload" => {
+        "videoFileUrl": videoFile.asset->url
+      },
+
+      // ✅ Social post embed
+      _type == "socialMediaPost" => {
+        url,}
+}
   }
 `;
 
