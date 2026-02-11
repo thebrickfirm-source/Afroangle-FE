@@ -2,15 +2,15 @@ import { articleType } from "./articleType";
 import { commentType } from "./commentType";
 import { authorType } from "./authorType";
 import { categoryType } from "./categoryType";
-import { twitterEmbed } from "./twitterEmbed";
-import { videoEmbed } from "./videoEmbed";
+import { videoUpload } from "./videoUpload";
 import { socialLinkType } from "./socialLink";
+import { socialMediaPost } from "./socialMediaPost";
 export const schemaTypes = [
   articleType,
   authorType,
   categoryType,
   commentType,
-  twitterEmbed,
-  videoEmbed,
+  socialMediaPost,
+  videoUpload,
   socialLinkType,
 ];

@@ -62,21 +62,9 @@ export const articleType = defineType({
             },
           ],
         },
-        { type: "videoEmbed" },
+        { type: "videoUpload" },
         // Added: Flexible Social Embed
-        {
-          type: "object",
-          name: "socialEmbed",
-          title: "Social Media Post",
-          fields: [
-            defineField({
-              name: "url",
-              type: "url",
-              title: "Post URL",
-              description: "Paste link from X (Twitter), Instagram, etc.",
-            }),
-          ],
-        },
+        { type: "socialMediaPost" },
       ],
     }),
     defineField({
