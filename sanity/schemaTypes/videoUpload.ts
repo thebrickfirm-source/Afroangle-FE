@@ -1,7 +1,7 @@
 import { defineType, defineField } from "sanity";
 
-export const videoEmbed = defineType({
-  name: "videoEmbed",
+export const videoUpload = defineType({
+  name: "videoUpload",
   type: "object",
   title: "Video / YouTube",
   fields: [
