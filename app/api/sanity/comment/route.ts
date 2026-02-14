@@ -37,6 +37,7 @@ export async function POST(req: Request) {
     name,
     email,
     message,
+    language,
     website, // honeypot
     startedAt, // timestamp
   } = body;
@@ -64,7 +65,8 @@ export async function POST(req: Request) {
     !email ||
     !message ||
     message.length < 5 ||
-    message.length > 1000
+    message.length > 1000 ||
+    !language
   ) {
     return NextResponse.json({ message: "Invalid input" }, { status: 400 });
   }
@@ -84,13 +86,14 @@ export async function POST(req: Request) {
   try {
     await client.create({
       _type: "comment",
-      post: {
+      article: {
         _type: "reference",
         _ref: _id,
       },
       name,
       email,
       message,
+      language,
       approved: true,
     });
 

@@ -36,6 +36,5 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   if (!article) {
     notFound();
   }
-
-  return <ArticlePageContent article={article} />;
+  return <ArticlePageContent article={article} locale={locale} />;
 }
