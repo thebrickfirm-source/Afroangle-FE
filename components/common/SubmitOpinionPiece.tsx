@@ -15,17 +15,8 @@ type OpinionModalProps = {
 type FormValues = {
   name: string;
   email: string;
-  article: string; // Added new field for the opinion piece
-};
-
-// --- Mock API Service ---
-const submitOpinionPiece = async (data: FormValues): Promise<boolean> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log("Submitting Article:", data);
-      resolve(true);
-    }, 1500); // Simulate network delay
-  });
+  title: string;
+  articleText: string; // Added new field for the opinion piece
 };
 
 export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
@@ -54,11 +45,17 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setStatus("loading");
-
-    // Call API
-    const success = await submitOpinionPiece(data);
-
-    if (success) {
+    const response = await fetch("/api/sanity/submit-piece", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        title: data.title,
+        articleText: data.articleText, // Send the long text here
+      }),
+    });
+    if (response.ok) {
       setStatus("success");
       reset();
     } else {
@@ -149,8 +146,8 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
                 </div>
 
                 <p className="font-secondary text-black mb-8 max-w-sm leading-relaxed text-sm">
-                  Send your article here and let our editors go through it and
-                  get back to you.
+                  Send your opinion piece here and let our editors go through it
+                  and get back to you.
                 </p>
 
                 <form
@@ -198,28 +195,50 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
                       </span>
                     )}
                   </div>
-
+                  {/* TITLE INPUT */}
+                  <div className="w-full text-left">
+                    <input
+                      type="text"
+                      placeholder="Article Title"
+                      disabled={status === "loading"}
+                      {...register("title", {
+                        required: "A title is required for your opinion piece",
+                        minLength: { value: 5, message: "Title is too short" },
+                        maxLength: { value: 100, message: "Title is too long" },
+                      })}
+                      className={`w-full bg-[#f4f4f4] border ${
+                        errors.title ? "border-red-500" : "border-[#e5aeae]"
+                      } text-gray-800 p-4 outline-none focus:border-[#d32f2f] focus:ring-1 focus:ring-[#d32f2f] transition-all placeholder:text-gray-400`}
+                    />
+                    {errors.title && (
+                      <span className="text-red-500 text-xs mt-1 block pl-1">
+                        {errors.title.message}
+                      </span>
+                    )}
+                  </div>
                   {/* ARTICLE TEXTAREA (New Field) */}
                   <div className="w-full text-left">
                     <textarea
-                      placeholder="Your article..."
+                      placeholder="Your opinion piece..."
                       rows={6}
                       disabled={status === "loading"}
-                      {...register("article", {
-                        required: "Article content is required",
+                      {...register("articleText", {
+                        required: "Opinion piece content is required",
                         minLength: {
-                          value: 50,
+                          value: 200,
                           message:
-                            "Article must be at least 50 characters long",
+                            "Opinion piece must be at least 200 characters long",
                         },
                       })}
                       className={`w-full bg-[#f4f4f4] border ${
-                        errors.article ? "border-red-500" : "border-[#e5aeae]"
+                        errors.articleText
+                          ? "border-red-500"
+                          : "border-[#e5aeae]"
                       } text-gray-800 p-4 outline-none focus:border-[#d32f2f] focus:ring-1 focus:ring-[#d32f2f] transition-all placeholder:text-gray-400 resize-none`}
                     />
-                    {errors.article && (
+                    {errors.articleText && (
                       <span className="text-red-500 text-xs mt-1 block pl-1">
-                        {errors.article.message}
+                        {errors.articleText.message}
                       </span>
                     )}
                   </div>

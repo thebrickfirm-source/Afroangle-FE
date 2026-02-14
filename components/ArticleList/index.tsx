@@ -12,7 +12,7 @@ const ArticleList = async ({
   center = false,
   articles,
 }: ArticleListProps) => {
-  console.log(articles);
+  // console.log(articles);
   return (
     <section className={`w-full max-w-5xl px-4 ${center ? "mx-auto" : ""}`}>
       <div className={`${center ? "text-center" : ""} space-y-3 mb-8 lg:mb-14`}>
