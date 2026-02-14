@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 // import { X } from "lucide-react";
 import { CloseIcon } from "@sanity/icons";
@@ -13,18 +12,8 @@ type NewsletterModalProps = {
 
 // Define the shape of our form values
 type FormValues = {
-  name: string;
+  fullName: string;
   email: string;
-};
-
-// --- Mock API Service ---
-const subscribeToNewsletter = async (data: FormValues): Promise<boolean> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log("Subscribing:", data);
-      resolve(true);
-    }, 1500); // Simulate network delay
-  });
 };
 
 export default function NewsletterModal({ trigger }: NewsletterModalProps) {
@@ -54,15 +43,29 @@ export default function NewsletterModal({ trigger }: NewsletterModalProps) {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setStatus("loading");
 
-    // Call API
-    const success = await subscribeToNewsletter(data);
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          fullName: data.fullName,
+        }),
+      });
 
-    if (success) {
-      setStatus("success");
-      reset(); // Clear form after successful submission
-    } else {
+      const result = await response.json();
+
+      if (response.ok) {
+        setStatus("success");
+        reset(); // Clear form after success
+      } else {
+        throw new Error(result.error || "Submission failed");
+      }
+    } catch (error: any) {
       setStatus("idle");
-      alert("Something went wrong. Please try again.");
+      alert(error.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -153,14 +156,16 @@ export default function NewsletterModal({ trigger }: NewsletterModalProps) {
                       type="text"
                       placeholder="Your name..."
                       disabled={status === "loading"}
-                      {...register("name", { required: "Name is required" })}
+                      {...register("fullName", {
+                        required: "Name is required",
+                      })}
                       className={`w-full bg-[#f4f4f4] border ${
                         errors.name ? "border-red-500" : "border-[#e5aeae]"
                       } text-gray-800 p-4 outline-none focus:border-[#d32f2f] focus:ring-1 focus:ring-[#d32f2f] transition-all placeholder:text-gray-400`}
                     />
-                    {errors.name && (
+                    {errors.fullName && (
                       <span className="text-red-500 text-xs mt-1 block pl-1">
-                        {errors.name.message}
+                        {errors.fullName.message}
                       </span>
                     )}
                   </div>

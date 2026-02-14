@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -9,9 +8,15 @@ type CommentFormValues = {
   email: string;
   message: string;
   website?: string; // honeypot
+  language?: string;
 };
-
-export default function CommentForm({ postId }: { postId: string }) {
+export default function CommentForm({
+  postId,
+  locale,
+}: {
+  postId: string;
+  locale: string;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [startedAt] = useState<number>(() => Date.now());
@@ -29,13 +34,14 @@ export default function CommentForm({ postId }: { postId: string }) {
       email: "",
       message: "",
       website: "",
+      language: locale,
     },
     mode: "onSubmit",
   });
 
   const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
     setIsSubmitting(true);
-
+    // console.log("Submitting comment:", data);
     try {
       const res = await fetch("/api/sanity/comment", {
         method: "POST",

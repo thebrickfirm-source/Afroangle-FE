@@ -9,10 +9,12 @@ import CommentForm from "./AddComment";
 import { PortableText } from "@portabletext/react";
 
 interface ArticlePageContentProps {
+  locale: string;
   article: ARTICLE_BY_SLUG_QUERY_RESULT;
 }
 
 export default function ArticlePageContent({
+  locale,
   article,
 }: ArticlePageContentProps) {
   return (
@@ -47,8 +49,8 @@ export default function ArticlePageContent({
             <PortableText value={article?.content} components={components} />
           </div>
           <div className="">
-            <Comments id={article._id} />
-            <CommentForm postId={article?._id!} />
+            <Comments id={article._id} locale={locale} />
+            <CommentForm locale={locale} postId={article?._id!} />
           </div>
         </article>
       </section>
