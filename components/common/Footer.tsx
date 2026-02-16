@@ -18,38 +18,48 @@ const footerSections: FooterSection[] = [
   {
     title: "About",
     links: [
-      { label: "Our History", href: "/history" },
-      { label: "Careers", href: "/careers" },
-    ],
-  },
-  {
-    title: "Contact",
-    links: [
-      { label: "Help Center", href: "/help" },
-      { label: "Contact Us", href: "/contact" },
-      { label: "Afroangle Brand Partners", href: "/partners" },
-      { label: "Press", href: "/press" },
-      { label: "Submit an Opinion Piece", href: "/submit" },
+      { label: "About Afroangle", href: "/about" },
+      // { label: "Careers", href: "/careers" },
     ],
   },
   {
     title: "Social",
     links: [
-      { label: "Twitter", href: "#" },
-      { label: "Instagram", href: "#" },
-      { label: "Medium", href: "#" },
-      { label: "Substack", href: "#" },
-      { label: "Afroangle Podcast: Spotify", href: "#" },
+      { label: "X", href: "https://x.com/theafroangle?s=11" },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/afroangle/",
+      },
+      {
+        label: "Facebook",
+        href: "https://www.facebook.com/profile.php?id=61586718135148&mibextid=wwXIfr",
+      },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/afroangle1?igsh=emxhcjZ2YXcwM2Fl",
+      },
+    ],
+  },
+  {
+    title: "Contact",
+    links: [
+      // { label: "Help Center", href: "/help" },
+      {
+        label: "Send us an email",
+        href: "mailto:editorial@afroangle.com",
+      },
+
+      { label: "Submit an Opinion Piece", href: "/submit" },
     ],
   },
   {
     title: "Subscription",
     links: [
-      { label: "Purchase", href: "/purchase" },
-      { label: "Give a Gift", href: "/gift" },
-      { label: "Manage Subscription", href: "/account" },
-      { label: "Group Subscriptions", href: "/groups" },
-      { label: "Afroangle Editions", href: "/editions" },
+      // { label: "Purchase", href: "/purchase" },
+      // { label: "Give a Gift", href: "/gift" },
+      // { label: "Manage Subscription", href: "/account" },
+      // { label: "Group Subscriptions", href: "/groups" },
+      // { label: "Afroangle Editions", href: "/editions" },
       { label: "Monthly digest", href: "/digest" },
     ],
   },
@@ -64,12 +74,10 @@ export default function Footer() {
           {/* Column 1: Mission Statement (Spans 4 cols on large screens) */}
           <div className="lg:col-span-4 pr-0 lg:pr-12">
             <p className="text-base leading-loose font-light">
-              <span className="font-semibold text-lg">
-                The Afroangle Publication
-              </span>{" "}
-              believes that great journalism has the power to make each
-              reader&apos;s life richer and more fulfilling, and all of society
-              stronger and more just.
+              <span className="font-semibold text-lg">Afroangle</span> is an
+              editorial platform that covers culture, history, politics,
+              history, innovation, the arts and entertainment to showcase
+              Africa’s diversity of voices and narratives.
             </p>
           </div>
 
