@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "Afroangle",
     title: "Afroangle - The African lens for global issues",
     description:
-      "We believe that great journalism has the power to make each reader's life richer and more fulfilling, and all of society stronger and more just.",
+      "Afroangle is an editorial platform that covers culture, history, politics, history, innovation, the arts and entertainment to showcase Africa’s diversity of voices and narratives.",
     images: [
       {
         url: "/og-image.jpg", // Located at: public/og-image.png
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Afroangle - The African lens for global issues",
     description:
-      "We believe that great journalism has the power to make each reader's life richer and more fulfilling, and all of society stronger and more just.",
+      "Afroangle is an editorial platform that covers culture, history, politics, history, innovation, the arts and entertainment to showcase Africa’s diversity of voices and narratives.",
     images: ["/og-image.jpg"], // Removed /public/
   },
 

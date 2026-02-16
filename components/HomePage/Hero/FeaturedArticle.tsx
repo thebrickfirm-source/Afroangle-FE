@@ -8,16 +8,16 @@ interface FeaturedArticleProps {
 // 2. Sub-component for the Main Feature
 const FeaturedArticle = ({ article }: FeaturedArticleProps) => {
   const backgroundStyle = {
-    backgroundImage: `linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0)), url(${article.mainImage})`,
+    backgroundImage: `linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0)), url(${article.mainImage})`,
   };
   const extract =
-    article.excerpt.length > 320
-      ? article.excerpt.slice(0, 320) + "…"
+    article.excerpt.length > 260
+      ? article.excerpt.slice(0, 240) + "…"
       : article.excerpt;
   return (
     <article
-      className="w-full lg:h-full h-140 flex items-end lg:p-8 p-4 relative bg-cover bg-center bg-no-repeat"
       style={backgroundStyle}
+      className={`w-full lg:h-full h-140 flex items-end lg:p-8 p-4 relative bg-cover bg-center bg-no-repeat`}
     >
       <div className="lg:w-3/5 space-y-3">
         <Link
