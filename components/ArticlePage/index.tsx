@@ -1,7 +1,7 @@
 import ArticleMeta from "../common/ArticleMeta";
 import ArticleHeader from "./ArticleHeader";
 import ArticleImage from "./ArticleImage";
-import { components } from "../common/PortableTextComponents";
+import { components } from "../SanityComponents/PortableTextComponents";
 import { ARTICLE_BY_SLUG_QUERY_RESULT } from "@/sanity/types";
 import Comments from "./Comments";
 import AudioPlayer from "./AudioPlayer";

@@ -7,7 +7,7 @@ interface AboutPageProps {
   }>;
 }
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "About us",
   description:
     "Learn about Afroangle, our mission, and the team behind the African lens for global issues.",
 };

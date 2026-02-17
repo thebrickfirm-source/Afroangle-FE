@@ -43,13 +43,16 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setStatus("loading");
+    const file = data.file?.[0]; // File
+    // Use FormData for uploads
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    if (file) formData.append("file", file);
+
     const response = await fetch("/api/sanity/submit-piece", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: data.name,
-        email: data.email,
-      }),
+      body: formData,
     });
     if (response.ok) {
       setStatus("success");
@@ -59,7 +62,6 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
       alert("Something went wrong. Please try again.");
     }
   };
-
   // --- Render ---
   return (
     <>
@@ -249,7 +251,7 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
                   >
                     <span className="font-primary text-lg font-light tracking-wide">
                       {status === "loading"
-                        ? "Sending..."
+                        ? "Uploading..."
                         : "Send to Afroangle Editors"}
                     </span>
                   </button>
