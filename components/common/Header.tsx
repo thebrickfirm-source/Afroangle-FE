@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import NewsletterModal from "./NewsLetterSignUp";
-import OpinionSubmissionModal from "./SubmitOpinionPiece";
 const Header = () => {
   return (
     <header className="font-secondary border-b border-black/30">
@@ -22,7 +21,16 @@ const Header = () => {
           </p>
         </div>
         <div className="flex items-center gap-1">
-          <OpinionSubmissionModal />
+          <Link
+            href="/en/about#submit-piece"
+            className="lg:inline-block hidden cursor-pointer group"
+          >
+            <span className="block slant-bottom-right p-px bg-primary-green">
+              <span className="block slant-bottom-right py-4 pr-8 pl-6 leading-none bg-white text-primary-green font-secondary transition-colors group-hover:bg-primary-green group-hover:text-white">
+                Submit an Opinion Piece
+              </span>
+            </span>
+          </Link>
           <NewsletterModal />
         </div>
       </div>

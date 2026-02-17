@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-// import { X } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CloseIcon } from "@sanity/icons";
 
@@ -15,8 +14,7 @@ type OpinionModalProps = {
 type FormValues = {
   name: string;
   email: string;
-  title: string;
-  articleText: string; // Added new field for the opinion piece
+  file: FileList;
 };
 
 export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
@@ -51,8 +49,6 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
       body: JSON.stringify({
         name: data.name,
         email: data.email,
-        title: data.title,
-        articleText: data.articleText, // Send the long text here
       }),
     });
     if (response.ok) {
@@ -68,10 +64,7 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
   return (
     <>
       {/* 1. Trigger Button */}
-      <div
-        onClick={handleOpen}
-        className="lg:inline-block cursor-pointer hidden"
-      >
+      <div onClick={handleOpen} className="inline-block cursor-pointer">
         {trigger || (
           <div className="slant-bottom-right p-px bg-primary-green w-full">
             <button className="slant-bottom-right w-full py-4 pr-8 pl-6 leading-none bg-white text-primary-green font-secondary transition-colors hover:bg-primary-green hover:text-white">
@@ -85,7 +78,7 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           {/* 3. Modal Content */}
-          <div className="bg-white w-full max-w-xl relative shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col items-center text-center pb-12 pt-14 px-8 md:px-12 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white w-full max-w-xl relative shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col items-center text-center py-12 px-5 md:px-12 max-h-[90vh] overflow-y-auto">
             {/* Top Close Button */}
             <button
               onClick={handleClose}
@@ -195,54 +188,59 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
                       </span>
                     )}
                   </div>
-                  {/* TITLE INPUT */}
+                  {/* FILE UPLOAD (PDF/DOCX) */}
                   <div className="w-full text-left">
                     <input
-                      type="text"
-                      placeholder="Article Title"
+                      type="file"
                       disabled={status === "loading"}
-                      {...register("title", {
-                        required: "A title is required for your opinion piece",
-                        minLength: { value: 5, message: "Title is too short" },
-                        maxLength: { value: 100, message: "Title is too long" },
-                      })}
-                      className={`w-full bg-[#f4f4f4] border ${
-                        errors.title ? "border-red-500" : "border-[#e5aeae]"
-                      } text-gray-800 p-4 outline-none focus:border-[#d32f2f] focus:ring-1 focus:ring-[#d32f2f] transition-all placeholder:text-gray-400`}
-                    />
-                    {errors.title && (
-                      <span className="text-red-500 text-xs mt-1 block pl-1">
-                        {errors.title.message}
-                      </span>
-                    )}
-                  </div>
-                  {/* ARTICLE TEXTAREA (New Field) */}
-                  <div className="w-full text-left">
-                    <textarea
-                      placeholder="Your opinion piece..."
-                      rows={6}
-                      disabled={status === "loading"}
-                      {...register("articleText", {
-                        required: "Opinion piece content is required",
-                        minLength: {
-                          value: 200,
-                          message:
-                            "Opinion piece must be at least 200 characters long",
+                      accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      {...register("file", {
+                        required: "Please upload a PDF or DOC file",
+                        validate: {
+                          fileType: (files) => {
+                            const file = files?.[0];
+                            if (!file) return "Please upload a file";
+
+                            const allowedTypes = [
+                              "application/pdf",
+                              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            ];
+
+                            const allowedExt = [".pdf", ".docx", ".doc"];
+                            const name = file.name?.toLowerCase() || "";
+                            const hasAllowedExt = allowedExt.some((ext) =>
+                              name.endsWith(ext),
+                            );
+
+                            if (
+                              !allowedTypes.includes(file.type) &&
+                              !hasAllowedExt
+                            ) {
+                              return "Only PDF or DOC files are allowed";
+                            }
+
+                            // Optional: max size (e.g. 10MB)
+                            const MAX_SIZE = 5 * 1024 * 1024;
+                            if (file.size > MAX_SIZE)
+                              return "File must be 5MB or less";
+
+                            return true;
+                          },
                         },
                       })}
                       className={`w-full bg-[#f4f4f4] border ${
-                        errors.articleText
-                          ? "border-red-500"
-                          : "border-[#e5aeae]"
-                      } text-gray-800 p-4 outline-none focus:border-[#d32f2f] focus:ring-1 focus:ring-[#d32f2f] transition-all placeholder:text-gray-400 resize-none`}
+                        errors.file ? "border-red-500" : "border-[#e5aeae]"
+                      } text-gray-800 p-4 outline-none focus:border-[#d32f2f] focus:ring-1 focus:ring-[#d32f2f] transition-all file:mr-4 file:rounded-md file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-gray-700 hover:file:bg-gray-100`}
                     />
-                    {errors.articleText && (
+                    {errors.file && (
                       <span className="text-red-500 text-xs mt-1 block pl-1">
-                        {errors.articleText.message}
+                        {String(errors.file.message)}
                       </span>
                     )}
+                    <p className="text-xs text-gray-500 mt-1 pl-1">
+                      Accepted formats: PDF, DOCX (max 10MB)
+                    </p>
                   </div>
-
                   {/* SUBMIT BUTTON */}
                   <button
                     type="submit"

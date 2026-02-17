@@ -49,7 +49,7 @@ const footerSections: FooterSection[] = [
         href: "mailto:editorial@afroangle.com",
       },
 
-      { label: "Submit an Opinion Piece", href: "/submit" },
+      { label: "Submit an Opinion Piece", href: "/en/about#submit-piece" },
     ],
   },
   {
@@ -67,7 +67,7 @@ const footerSections: FooterSection[] = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#406755] mt-40 text-white antialiased">
+    <footer className="bg-[#406755] mt-24 text-white antialiased">
       <div className="max-w-screen-xl mx-auto px-6 pb-9 pt-16 lg:px-8">
         {/* --- Top Section: Grid Layout --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-16 tracking-[5%]">
