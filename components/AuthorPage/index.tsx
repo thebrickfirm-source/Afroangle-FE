@@ -2,29 +2,38 @@ import { getArticlesByAuthor } from "@/sanity/services/articleService";
 import ArticleList from "../ArticleList";
 import AuthorHero from "./AuthorHero";
 import AuthorNav from "./AuthorNav";
+import { getDictionary, hasLocale } from "@/app/[locale]/dictionaries";
+import { notFound } from "next/navigation";
 
 interface AuthorPageContentProps {
   author: any;
   locale: string;
 }
+
 const AuthorPageContent = async ({
   author,
   locale,
 }: AuthorPageContentProps) => {
+  if (!hasLocale(locale)) notFound();
+
+  const dict = await getDictionary(locale);
   const articles = (await getArticlesByAuthor(author._id, locale)).data;
+
   return (
     <main className="">
-      <AuthorNav />
+      <AuthorNav dict={dict.articles} />
       <AuthorHero author={author} />
       <section className="max-w-screen-xl mx-auto lg:px-24">
         <ArticleList
           articles={articles}
-          heading={`READ MORE FROM ${author.name}`}
-          subheading={`This are all the opinion pieces that were published by ${author.name}`}
+          heading={`${dict.authors.readMoreFrom} ${author.name}`}
+          subheading={`${dict.authors.subheading} ${author.name}`}
+          dict={dict}
           center={false}
         />
       </section>
     </main>
   );
 };
+
 export default AuthorPageContent;

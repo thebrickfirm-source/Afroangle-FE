@@ -1,5 +1,3 @@
-// components/articles/ArticleHeader.tsx
-
 import Link from "next/link";
 import ShareButton from "../common/ShareButton";
 

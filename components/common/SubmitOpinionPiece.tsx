@@ -240,7 +240,7 @@ export default function OpinionSubmissionModal({ trigger }: OpinionModalProps) {
                       </span>
                     )}
                     <p className="text-xs text-gray-500 mt-1 pl-1">
-                      Accepted formats: PDF, DOCX (max 10MB)
+                      Accepted formats: pdf, doc, docx (max 5MB)
                     </p>
                   </div>
                   {/* SUBMIT BUTTON */}

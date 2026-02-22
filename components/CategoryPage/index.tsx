@@ -8,6 +8,7 @@ import {
   getAllCategories,
   getCategoryBySlug,
 } from "@/sanity/services/categoryService";
+import { getDictionary, hasLocale } from "@/app/[locale]/dictionaries";
 
 const CategoryPage = async ({
   slug,
@@ -16,17 +17,22 @@ const CategoryPage = async ({
   slug: string;
   locale: string;
 }) => {
-  // 2. Fetch data in parallel for performance
+  if (!hasLocale(locale)) notFound();
+
+  const dict = await getDictionary(locale);
+
   const [categories, categoryData, articlesResponse] = await Promise.all([
-    getAllCategories(), // For the Nav
-    getCategoryBySlug(slug), // For the Info Header (Title/Desc)
-    getArticlesByCategory(slug, locale), // For the Content
+    getAllCategories(),
+    getCategoryBySlug(slug),
+    getArticlesByCategory(slug, locale),
   ]);
-  // 3. Handle 404s if the category doesn't exist in Sanity
+
   if (!categoryData) {
     notFound();
   }
+
   const articles = articlesResponse.data;
+
   return (
     <>
       <CategoryInfo
@@ -34,27 +40,26 @@ const CategoryPage = async ({
         name={categoryData.name}
         description={
           categoryData.description ||
-          `Explore our articles on ${categoryData.name}`
+          `${dict.categories.explore} ${categoryData.name}`
         }
       />
 
       <CategoryNav categories={categories} />
 
-      {/* 4. Safety Check: Only show spotlight if articles exist */}
       {articles.length > 0 && <ArticleSpotlight article={articles[0]} />}
 
       <div className="border-t border-t-black/30">
         <div className="max-w-screen-xl mx-auto lg:px-16 px-4 pt-12">
           {articles.length > 0 ? (
             <ArticleList
-              heading={`Read more of ${categoryData.name}`}
-              subheading="Our top analyses, debates, ideas and stories of the week."
-              // 5. Slice safely (if only 1 article exists, this returns empty array, which is fine)
+              heading={`${dict.categories.readMore}${categoryData.name}`}
+              subheading={dict.categories.subheading}
               articles={articles.slice(1)}
+              dict={dict}
             />
           ) : (
             <p className="text-center text-gray-600 py-10">
-              No articles found in this category yet.
+              {dict.categories.noArticlesInCategory}
             </p>
           )}
         </div>
