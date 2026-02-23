@@ -1,39 +1,50 @@
-import { FeedbackIcon } from "@sanity/icons";
+import { FileDownload } from "@/components/SanityComponents/FileDownload";
 import { defineType, defineField } from "sanity";
 
 export default defineType({
   name: "opinionPiece",
-  title: "Opinion Piece",
+  title: "Opinion Piece Submissions",
   type: "document",
-  icon: FeedbackIcon,
   fields: [
     defineField({
       name: "name",
-      title: "Name",
+      title: "Author Name",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      readOnly: true,
     }),
     defineField({
       name: "email",
-      title: "Email",
+      title: "Email Address",
       type: "string",
-      validation: (Rule) => Rule.required().email(),
+      readOnly: true,
     }),
     defineField({
-      name: "title",
-      title: "Title",
-      type: "string",
-      validation: (Rule) => Rule.required(),
+      name: "fileUpload",
+      title: "Uploaded Document",
+      type: "file",
+      options: {
+        accept: ".pdf,.doc,.docx",
+      },
     }),
     defineField({
-      name: "article",
-      title: "Content",
-      type: "array", // Change from 'blockContent' to 'array'
-      of: [
-        {
-          type: "block",
-        },
-      ],
+      name: "downloadButton",
+      title: "Review Action",
+      type: "string",
+      components: {
+        field: FileDownload,
+      },
     }),
   ],
+  preview: {
+    select: {
+      title: "name",
+      subtitle: "email",
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: title || "Anonymous Submission",
+        subtitle: subtitle || "No email provided",
+      };
+    },
+  },
 });

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Rokkitt, Kumbh_Sans } from "next/font/google";
 import Header from "@/components/common/Header";
 import { notFound } from "next/navigation";
-import { isLocale } from "@/i18n/locales";
 import Footer from "@/components/common/Footer";
+import { hasLocale, getDictionary } from "./dictionaries";
 
 const rokkitt = Rokkitt({
   variable: "--font-rokkitt",
@@ -16,67 +16,74 @@ const kumbhSans = Kumbh_Sans({
   weight: ["300", "400"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://afroangle.com"),
+interface RootLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}
 
-  title: {
-    default: "Afroangle",
-    template: "%s | Afroangle",
-  },
+export async function generateMetadata({
+  params,
+}: RootLayoutProps): Promise<Metadata> {
+  const { locale } = await params;
 
-  description: "The African lens for global issues",
+  if (!hasLocale(locale)) notFound();
 
-  openGraph: {
-    type: "website",
-    url: "https://afroangle.com",
-    siteName: "Afroangle",
-    title: "Afroangle - The African lens for global issues",
-    description:
-      "Afroangle is an editorial platform that covers culture, history, politics, history, innovation, the arts and entertainment to showcase Africa’s diversity of voices and narratives.",
-    images: [
-      {
-        url: "/og-image.jpg", // Located at: public/og-image.png
-        width: 1200,
-        height: 630,
-        alt: "Afroangle - The African lens for global issues",
-      },
-    ],
-  },
+  const dict = await getDictionary(locale);
+  const seo = dict.common.seo.home;
 
-  twitter: {
-    card: "summary_large_image",
-    title: "Afroangle - The African lens for global issues",
-    description:
-      "Afroangle is an editorial platform that covers culture, history, politics, history, innovation, the arts and entertainment to showcase Africa’s diversity of voices and narratives.",
-    images: ["/og-image.jpg"], // Removed /public/
-  },
+  return {
+    metadataBase: new URL("https://afroangle.com"),
 
-  icons: {
-    // If icon is in public folder
-    icon: "/icon.png",
-    // Or if using the Next.js specialized icon file in the app dir,
-    // you don't even need to include it in the metadata object;
-    // just name it icon.png inside the [locale] folder.
-  },
-};
+    title: {
+      default: seo.defaultTitle,
+      template: seo.titleTemplate,
+    },
+
+    description: seo.description,
+
+    openGraph: {
+      type: "website",
+      url: "https://afroangle.com",
+      siteName: seo.defaultTitle,
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      images: [
+        {
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: seo.ogAlt,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      images: ["/og-image.jpg"],
+    },
+
+    icons: {
+      icon: "/icon.png",
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
   params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+}: RootLayoutProps) {
   const { locale } = await params;
 
-  if (!isLocale(locale)) notFound();
+  if (!hasLocale(locale)) notFound();
 
   return (
     <html lang={locale}>
       <body className={`${rokkitt.variable} ${kumbhSans.variable} antialiased`}>
-        <Header />
+        <Header locale={locale} />
         {children}
-        <Footer />
+        <Footer locale={locale} />
       </body>
     </html>
   );

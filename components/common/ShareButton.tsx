@@ -1,10 +1,23 @@
-// components/articles/ShareButton.tsx
 "use client";
 
 import { useState } from "react";
 
-export default function ShareButton() {
+type Dict = {
+  common: {
+    buttons: {
+      share: string;
+      copied: string;
+    };
+  };
+};
+
+interface ShareButtonProps {
+  dict: Dict;
+}
+
+export default function ShareButton({ dict }: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
+  const { share, copied: copiedLabel } = dict.common.buttons;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -17,7 +30,6 @@ export default function ShareButton() {
         console.error("Error sharing:", err);
       }
     } else {
-      // Fallback: Copy to clipboard
       await navigator.clipboard.writeText(window.location.href);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -28,9 +40,9 @@ export default function ShareButton() {
     <button
       onClick={handleShare}
       className="slant-top-left bg-neutral py-1.5 pl-6 pr-4 font-secondary lg:text-lg active:bg-neutral-600 active:text-white"
-      aria-label="Share article"
+      aria-label={share}
     >
-      {copied ? "Copied!" : "Share"}
+      {copied ? copiedLabel : share}
     </button>
   );
 }
