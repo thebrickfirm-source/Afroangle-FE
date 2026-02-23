@@ -19,13 +19,13 @@ async function sendEmailNotification(
 
   const emailData = {
     sender: {
-      name: "Notify from Afroangle",
-      email: "tsherrifdeen@gmail.com",
+      name: "Afroangle Notification",
+      email: "editorial@afroangle.com",
     },
     to: [
       {
         email: "editorial@afroangle.com",
-        name: "Editor at Afroangle",
+        name: "Israel Winlade",
       },
     ],
     subject: `New Opinion Piece Submission: ${authorName}`,
@@ -40,7 +40,7 @@ async function sendEmailNotification(
           <p><strong>File Name:</strong> ${fileName}</p>
           <hr />
           <p>You can view and download this submission in the <a href="https://afroangle.com/admin">Sanity Studio</a>.</p>
-        </body>
+        </body> 
       </html>
     `,
   };
