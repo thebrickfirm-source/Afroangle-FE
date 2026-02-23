@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import OpinionSubmissionModal from "../common/SubmitOpinionPiece";
 
 type Dict = {
@@ -18,6 +17,8 @@ type Dict = {
   };
   common: {
     buttons: {
+      close: string;
+      sendToEditors: string;
       clickHere: string;
     };
     seo: {
@@ -25,12 +26,47 @@ type Dict = {
         title: string;
       };
     };
+    forms: {
+      name: string;
+      email: string;
+      placeholders: {
+        name: string;
+        email: string;
+      };
+    };
+    errors: {
+      required: string;
+      invalidEmail: string;
+      submissionFailed: string;
+      fileInvalid: string;
+      fileTooLarge: string;
+    };
+  };
+  footer: {
+    links: {
+      submitOpinion: string;
+    };
+  };
+  opinionSubmission: {
+    modal: {
+      form: {
+        title: string;
+        description: string;
+        fileHint: string;
+      };
+      success: {
+        title: string;
+        description: string;
+      };
+    };
   };
 };
 
-type Props = { locale: string; dict: Dict };
+interface AboutPageProps {
+  dict: Dict;
+}
 
-const AboutPageContent = ({ dict }: Props) => {
+const AboutPageContent = ({ dict }: AboutPageProps) => {
   const { about, common } = dict;
 
   return (
@@ -92,6 +128,7 @@ const AboutPageContent = ({ dict }: Props) => {
                       {common.buttons.clickHere}
                     </span>
                   }
+                  dict={dict}
                 />
               </div>
             </div>

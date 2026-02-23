@@ -21,7 +21,7 @@ const AuthorPageContent = async ({
 
   return (
     <main className="">
-      <AuthorNav dict={dict.articles} />
+      <AuthorNav dict={dict} />
       <AuthorHero author={author} />
       <section className="max-w-screen-xl mx-auto lg:px-24">
         <ArticleList

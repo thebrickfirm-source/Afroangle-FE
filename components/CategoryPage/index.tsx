@@ -42,11 +42,14 @@ const CategoryPage = async ({
           categoryData.description ||
           `${dict.categories.explore} ${categoryData.name}`
         }
+        dict={dict}
       />
 
-      <CategoryNav categories={categories} />
+      <CategoryNav categories={categories} dict={dict} />
 
-      {articles.length > 0 && <ArticleSpotlight article={articles[0]} />}
+      {articles.length > 0 && (
+        <ArticleSpotlight article={articles[0]} dict={dict.articles} />
+      )}
 
       <div className="border-t border-t-black/30">
         <div className="max-w-screen-xl mx-auto lg:px-16 px-4 pt-12">

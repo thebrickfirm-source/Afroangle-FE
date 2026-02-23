@@ -2,6 +2,7 @@
   "common": {
     "buttons": {
       "submit": "Submit",
+      "copied": "Copied!",
       "cancel": "Cancel",
       "share": "Share",
       "loadMore": "Load More",
@@ -9,7 +10,7 @@
       "viewAll": "View All",
       "clickHere": "Click here",
       "close": "Close",
-      "subscribe": "Subscribe to the monthly digest",
+      "subscribe": "Get the monthly digest",
       "sendToEditors": "Send to Afroangle Editors"
     },
     "seo": {

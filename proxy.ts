@@ -17,7 +17,6 @@ function getLocale(req: NextRequest): string {
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||

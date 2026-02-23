@@ -81,9 +81,9 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={`${rokkitt.variable} ${kumbhSans.variable} antialiased`}>
-        <Header />
+        <Header locale={locale} />
         {children}
-        <Footer />
+        <Footer locale={locale} />
       </body>
     </html>
   );

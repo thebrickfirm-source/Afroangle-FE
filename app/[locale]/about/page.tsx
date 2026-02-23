@@ -34,7 +34,7 @@ const About = async ({ params }: AboutPageProps) => {
 
   return (
     <main className="">
-      <AboutPageContent locale={locale} dict={dict} />
+      <AboutPageContent dict={dict} />
     </main>
   );
 };

@@ -26,7 +26,7 @@ export default async function ArticlePageContent({
   return (
     <main>
       <section className="mx-auto max-w-screen-xl py-8 lg:py-12">
-        <ArticleHeader category={article?.category} />
+        <ArticleHeader category={article?.category} dict={dict} />
 
         <article className="space-y-4 px-4 lg:space-y-8 lg:px-24">
           <h1 className="text-3xl font-bold italic lg:w-11/12 lg:text-6xl capitalize">

@@ -4,12 +4,13 @@
       "submit": "Envoyer",
       "cancel": "Annuler",
       "share": "Partager",
+      "copied": "Copié !",
       "loadMore": "Charger plus",
       "backToHome": "Retour à l'accueil",
       "viewAll": "Tout afficher",
       "clickHere": "Cliquez ici",
       "close": "Fermer",
-      "subscribe": "S'abonner au récapitulatif mensuel",
+      "subscribe": "obtenez le résumé mensuel",
       "sendToEditors": "Envoyer aux éditeurs d'Afroangle"
     },
     "seo": {
@@ -88,7 +89,7 @@
       "topArticle": "à la une",
       "noArticles": "Aucun article trouvé",
       "featured": "Articles à la une",
-      "catchUp": "Rattrapage"
+      "catchUp": "Rattraper"
     },
     "comments": {
       "title": "Laisser un commentaire",
