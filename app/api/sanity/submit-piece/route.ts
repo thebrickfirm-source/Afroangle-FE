@@ -9,53 +9,100 @@ const client = createClient({
   useCdn: false,
 });
 
+// Helper function to send email via Brevo
+async function sendEmailNotification(
+  authorName: string,
+  authorEmail: string,
+  fileName: string,
+) {
+  const BREVO_API_KEY = process.env.BREVO_API_KEY;
+
+  const emailData = {
+    sender: {
+      name: "Afroangle Notification",
+      email: "editorial@afroangle.com",
+    },
+    to: [
+      {
+        email: "editorial@afroangle.com",
+        name: "Israel Winlade",
+      },
+    ],
+    subject: `New Opinion Piece Submission: ${authorName}`,
+    htmlContent: `
+      <html>
+        <body style="font-family: sans-serif; line-height: 1.6; color: #333;">
+          <h2>New Submission Received</h2>
+          <p>A new opinion piece has been uploaded to Sanity.</p>
+          <hr />
+          <p><strong>Author:</strong> ${authorName}</p>
+          <p><strong>Email:</strong> ${authorEmail}</p>
+          <p><strong>File Name:</strong> ${fileName}</p>
+          <hr />
+          <p>You can view and download this submission in the <a href="https://afroangle.com/admin">Sanity Studio</a>.</p>
+        </body> 
+      </html>
+    `,
+  };
+
+  return fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": BREVO_API_KEY || "",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(emailData),
+  });
+}
+
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { name, email, title, articleText } = body;
+    const formData = await req.formData();
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const file = formData.get("file") as File;
 
-    // 1. Basic Validation
-    if (!name || !email || !title || !articleText) {
-      return NextResponse.json(
-        { message: "Missing required fields" },
-        { status: 400 },
-      );
+    if (!name || !email || !file) {
+      return NextResponse.json({ message: "Missing fields" }, { status: 400 });
     }
-    const paragraphs = articleText
-      .split(/\r?\n/)
-      .filter((p: string) => p.trim() !== "");
 
-    // Map each string paragraph to a Sanity Block object
-    const portableTextBlocks = paragraphs.map((text: string) => ({
-      _type: "block",
-      style: "normal",
-      markDefs: [],
-      children: [
-        {
-          _type: "span",
-          text: text,
-          marks: [],
-        },
-      ],
-    }));
-    // 2. Create the document in Sanity
-    const result = await client.create({
-      _type: "opinionPiece",
-      name: name,
-      email: email,
-      title: title,
-      article: portableTextBlocks,
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // 1. Upload file to Sanity Assets
+    const asset = await client.assets.upload("file", buffer, {
+      filename: file.name,
+      contentType: file.type,
     });
 
-    return NextResponse.json(
-      { message: "Opinion piece submitted", id: result._id },
-      { status: 200 },
-    );
+    // 2. Create the document
+    const result = await client.create({
+      _type: "opinionPiece",
+      name,
+      email,
+      fileUpload: {
+        _type: "file",
+        asset: {
+          _type: "reference",
+          _ref: asset._id,
+        },
+      },
+    });
+
+    // 3. Trigger Brevo Email Notification
+    // We don't necessarily need to 'await' this if we want to return the response faster,
+    // but awaiting ensures we know if the email failed.
+    try {
+      await sendEmailNotification(name, email, file.name);
+    } catch (emailErr) {
+      console.error("Brevo Email Error:", emailErr);
+      // We don't stop the process if the email fails, as the document is already in Sanity
+    }
+
+    return NextResponse.json({ id: result._id }, { status: 200 });
   } catch (err: any) {
     console.error("Sanity Error:", err);
-    return NextResponse.json(
-      { message: "Error creating document", error: err.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

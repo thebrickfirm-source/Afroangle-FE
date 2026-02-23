@@ -1,19 +1,32 @@
 import { getArticleComments } from "@/sanity/services/commentService";
 import { timeAgo } from "@/utils/DateConversion";
 
+type Dict = {
+  articles: {
+    comments: {
+      title: string;
+      noComments: string;
+    };
+  };
+};
+
 interface CommentsProps {
   id: string;
   locale: string;
+  dict: Dict;
 }
-const Comments = async ({ id, locale }: CommentsProps) => {
+
+const Comments = async ({ id, locale, dict }: CommentsProps) => {
   const comments = (await getArticleComments(id, locale)).data;
+  const { comments: c } = dict.articles;
+
   return (
     <div className="max-w-3xl mt-8 w-full mx-auto space-y-6">
       <h5 className="uppercase text-2xl text-primary-red leading-none">
-        Comments
+        {c.title}
       </h5>
-      {comments.length == 0 ? (
-        <p className="text-sm text-center">No comment on this article</p>
+      {comments.length === 0 ? (
+        <p className="text-sm text-center">{c.noComments}</p>
       ) : (
         comments.map((comment, index) => (
           <div

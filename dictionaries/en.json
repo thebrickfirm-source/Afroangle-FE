@@ -1,0 +1,155 @@
+{
+  "common": {
+    "buttons": {
+      "submit": "Submit",
+      "copied": "Copied!",
+      "cancel": "Cancel",
+      "share": "Share",
+      "loadMore": "Load More",
+      "backToHome": "Back to Home",
+      "viewAll": "View All",
+      "clickHere": "Click here",
+      "close": "Close",
+      "subscribe": "Get the monthly digest",
+      "sendToEditors": "Send to Afroangle Editors"
+    },
+    "seo": {
+      "home": {
+        "defaultTitle": "Afroangle",
+        "titleTemplate": "%s | Afroangle",
+        "description": "The African lens for global issues",
+        "ogTitle": "Afroangle - The African lens for global issues",
+        "ogDescription": "Afroangle is an editorial platform that covers culture, history, politics, innovation, the arts and entertainment to showcase Africa’s diversity of voices and narratives.",
+        "ogAlt": "Afroangle - The African lens for global issues"
+      },
+      "about": {
+        "title": "About us",
+        "description": "Learn about Afroangle, our mission, and the team behind the African lens for global issues."
+      }
+    },
+    "forms": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Comment",
+      "placeholders": {
+        "search": "Search articles...",
+        "name": "Your name...",
+        "email": "Your email..."
+      }
+    },
+    "errors": {
+      "notFound": "Page not found",
+      "unauthorized": "Unauthorized access",
+      "serverError": "Server error occurred",
+      "invalidEmail": "Enter valid email address",
+      "required": "This field is required",
+      "submissionFailed": "Submission failed. Please try again.",
+      "fileInvalid": "Only PDF or DOC files are allowed",
+      "fileTooLarge": "File must be 5MB or less"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "tagline": "The African lens for all global issues"
+  },
+  "footer": {
+    "mission": "Afroangle is an editorial platform that covers culture, history, politics, innovation, the arts and entertainment to showcase Africa’s diversity of voices and narratives.",
+    "sections": {
+      "about": "About",
+      "social": "Social",
+      "contact": "Contact",
+      "subscription": "Subscription"
+    },
+    "links": {
+      "aboutAfroangle": "About Afroangle",
+      "emailUs": "Send us an email",
+      "submitOpinion": "Submit an Opinion Piece",
+      "monthlyDigest": "Monthly digest"
+    },
+    "legal": {
+      "copyright": "Afroangle.com © 2026 The Afroangle Non-profit Organisation. All Rights Reserved.",
+      "recaptcha": "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply."
+    }
+  },
+  "articles": {
+    "metadata": {
+      "author": "Author",
+      "publishedDate": "Published",
+      "category": "Category",
+      "tags": "Tags",
+      "by": "by",
+      "writer": "WRITER"
+    },
+    "audio": {
+      "listen": "Listen to this article",
+      "noAudio": "No audio available for this article",
+      "notSupported": "Your browser does not support this audio format"
+    },
+    "list": {
+      "topArticle": "top",
+      "noArticles": "No articles found",
+      "featured": "Featured Articles",
+      "catchUp": "Catch up"
+    },
+    "comments": {
+      "title": "Leave a Comment",
+      "noComments": "No comments yet",
+      "thankYou": "Thank you for your comment!",
+      "sending": "Sending...",
+      "validation": {
+        "commentTooShort": "Comment must be at least 5 characters",
+        "commentTooLong": "Comment cannot exceed 600 characters"
+      }
+    }
+  },
+  "authors": {
+    "notExist": "Author does not exist",
+    "readMoreFrom": "READ MORE FROM",
+    "subheading": "These are all the opinion pieces that were published by"
+  },
+  "categories": {
+    "viewAll": "View All Categories",
+    "explore": "Explore our articles on",
+    "notFound": "Category not found",
+    "noArticlesInCategory": "No articles found in this category",
+    "topIdea": "THIS WEEK’S TOP IDEAS",
+    "readMore": "Read more of ",
+    "subheading": "Our top analyses, debates, ideas and stories of the week."
+  },
+  "about": {
+    "pageTitle": "About Us",
+    "heading": "Africa in focus—unfiltered, evolving, plural.",
+    "body": "Afroangle is an editorial platform telling the stories that shape contemporary Africa and its global diaspora...",
+    "submission": {
+      "title": "Submit an Opinion Piece",
+      "intro": "Afroangle is looking for original reporting and sharp analysis...",
+      "strongStoryTitle": "What makes a strong Afroangle story?",
+      "strongStoryBody": "Fresh perspectives, rigorous research, and narratives that reveal Africa's complexity...",
+      "readyToPitch": "Ready to submit?"
+    }
+  },
+  "newsletter": {
+    "modal": {
+      "freeBadge": "Free",
+      "title": "Journalism that explains <br /> Africa to the world",
+      "description": "Gain access to limited free articles, news alerts, select newsletters, podcasts and some daily games.",
+      "success": {
+        "title": "You’re a Subscriber Now",
+        "description": "Check your email for limited free articles, news alerts, select newsletters, podcasts and some daily games."
+      }
+    }
+  },
+  "opinionSubmission": {
+    "modal": {
+      "form": {
+        "title": "Become an Afroangle Writer. <br /> Submit your opinion piece",
+        "description": "Send your opinion piece here and let our editors go through it and get back to you.",
+        "fileHint": "Accepted formats: pdf, doc, docx (max 5MB)"
+      },
+      "success": {
+        "title": "Submission Received",
+        "description": "Thank you for your submission. Our editors will review your piece and get back to you shortly via email."
+      }
+    }
+  }
+}

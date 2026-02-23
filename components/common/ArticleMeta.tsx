@@ -1,5 +1,5 @@
 import { formatDate } from "@/utils/DateConversion";
-import Link from "next/link";
+import LocaleLink from "./LocaleLink";
 
 interface ArticleMetaProps {
   author: {
@@ -15,12 +15,12 @@ const ArticleMeta = ({ author, date, large = false }: ArticleMetaProps) => {
     <div
       className={`flex items-center gap-2 ${large ? "lg:text-lg text-base" : "lg:text-base text-sm"}`}
     >
-      <Link
+      <LocaleLink
         href={`/authors/${author.slug}`}
         className="hover:underline decoration-primary-red decoration-2"
       >
         {author.name}
-      </Link>
+      </LocaleLink>
       <span className="text-neutral-300">●</span>
       <span>{formatDate(date)}</span>
     </div>

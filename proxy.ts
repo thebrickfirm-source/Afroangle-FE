@@ -1,12 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
+import { match } from "@formatjs/intl-localematcher";
+import Negotiator from "negotiator";
 
 const locales = ["en", "fr"];
 const defaultLocale = "en";
 
+function getLocale(req: NextRequest): string {
+  const negotiatorHeaders: Record<string, string> = {};
+  req.headers.forEach((value, key) => {
+    negotiatorHeaders[key] = value;
+  });
+
+  const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
+  return match(languages, locales, defaultLocale);
+}
+
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-
-  // Ignore API, Next internals, and static files
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
@@ -19,8 +29,9 @@ export function proxy(req: NextRequest) {
   const first = pathname.split("/")[1];
   if (locales.includes(first)) return NextResponse.next();
 
+  const locale = getLocale(req);
   const url = req.nextUrl.clone();
-  url.pathname = `/${defaultLocale}${pathname}`;
+  url.pathname = `/${locale}${pathname}`;
   return NextResponse.redirect(url);
 }
 

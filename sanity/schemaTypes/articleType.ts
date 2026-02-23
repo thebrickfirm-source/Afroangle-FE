@@ -5,7 +5,7 @@ import {
   ImageIcon,
 } from "@sanity/icons";
 import { defineType, defineField } from "sanity";
-import { GenerateAudioInput } from "@/components/common/GenerateAudio";
+import { GenerateAudioInput } from "@/components/SanityComponents/GenerateAudio";
 
 export const articleType = defineType({
   name: "article",

@@ -7,15 +7,49 @@ type CommentFormValues = {
   name: string;
   email: string;
   message: string;
-  website?: string; // honeypot
+  website?: string;
   language?: string;
 };
+
+type Dict = {
+  common: {
+    forms: {
+      name: string;
+      email: string;
+      message: string;
+    };
+    errors: {
+      required: string;
+      invalidEmail: string;
+      submissionFailed: string;
+    };
+  };
+  articles: {
+    comments: {
+      title: string;
+      thankYou: string;
+      sending: string;
+      validation: {
+        commentTooShort: string;
+        commentTooLong: string;
+      };
+    };
+  };
+  common: {
+    buttons: {
+      submit: string;
+    };
+  };
+};
+
 export default function CommentForm({
   postId,
   locale,
+  dict,
 }: {
   postId: string;
   locale: string;
+  dict: Dict;
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -23,11 +57,14 @@ export default function CommentForm({
 
   const router = useRouter();
 
+  const { comments } = dict.articles;
+  const { forms, errors, buttons } = dict.common;
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors: formErrors },
   } = useForm<CommentFormValues>({
     defaultValues: {
       name: "",
@@ -41,7 +78,6 @@ export default function CommentForm({
 
   const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
     setIsSubmitting(true);
-    // console.log("Submitting comment:", data);
     try {
       const res = await fetch("/api/sanity/comment", {
         method: "POST",
@@ -56,7 +92,6 @@ export default function CommentForm({
       });
 
       if (!res.ok) {
-        // Optional: you can surface a message to the user here
         setIsSubmitting(false);
         return;
       }
@@ -71,7 +106,7 @@ export default function CommentForm({
   if (hasSubmitted)
     return (
       <div className="max-w-3xl mx-auto my-6">
-        <p className="font-primary">Thanks for your comment!</p>
+        <p className="font-primary">{comments.thankYou}</p>
       </div>
     );
 
@@ -89,19 +124,19 @@ export default function CommentForm({
         className="hidden"
       />
 
-      <h3 className="text-2xl text-primary-red">Leave a comment</h3>
+      <h3 className="text-2xl text-primary-red">{comments.title}</h3>
 
       {/* Name */}
       <div className="space-y-1">
         <input
-          {...register("name", { required: "Name is required" })}
-          placeholder="Name"
+          {...register("name", { required: errors.required })}
+          placeholder={forms.name}
           className="w-full resize-none rounded bg-white px-3 py-2
                  focus:outline-none focus:ring-1
                  focus:ring-primary-green"
         />
-        {errors.name && (
-          <p className="text-sm text-primary-red">{errors.name.message}</p>
+        {formErrors.name && (
+          <p className="text-sm text-primary-red">{formErrors.name.message}</p>
         )}
       </div>
 
@@ -109,19 +144,19 @@ export default function CommentForm({
       <div className="space-y-1">
         <input
           {...register("email", {
-            required: "Email is required",
+            required: errors.required,
             pattern: {
               value: /^\S+@\S+\.\S+$/,
-              message: "Enter a valid email address",
+              message: errors.invalidEmail,
             },
           })}
-          placeholder="Email"
+          placeholder={forms.email}
           className="w-full resize-none rounded bg-white px-3 py-2
                  focus:outline-none focus:ring-1
                  focus:ring-primary-green"
         />
-        {errors.email && (
-          <p className="text-sm text-primary-red">{errors.email.message}</p>
+        {formErrors.email && (
+          <p className="text-sm text-primary-red">{formErrors.email.message}</p>
         )}
       </div>
 
@@ -129,18 +164,26 @@ export default function CommentForm({
       <div className="space-y-1">
         <textarea
           {...register("message", {
-            required: "Comment is required",
-            minLength: { value: 5, message: "Comment is too short" },
-            maxLength: { value: 1000, message: "Comment is too long" },
+            required: errors.required,
+            minLength: {
+              value: 5,
+              message: comments.validation.commentTooShort,
+            },
+            maxLength: {
+              value: 600,
+              message: comments.validation.commentTooLong,
+            },
           })}
-          placeholder="Comment…"
+          placeholder={forms.message}
           rows={3}
           className="w-full resize-none rounded bg-white px-3 py-2
                  focus:outline-none focus:ring-1
                  focus:ring-primary-green"
         />
-        {errors.message && (
-          <p className="text-sm text-primary-red">{errors.message.message}</p>
+        {formErrors.message && (
+          <p className="text-sm text-primary-red">
+            {formErrors.message.message}
+          </p>
         )}
       </div>
 
@@ -153,7 +196,7 @@ export default function CommentForm({
                disabled:cursor-not-allowed
                disabled:opacity-60"
       >
-        {isSubmitting ? "Sending…" : "Submit Comment"}
+        {isSubmitting ? comments.sending : buttons.submit}
       </button>
     </form>
   );

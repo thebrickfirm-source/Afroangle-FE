@@ -1,0 +1,155 @@
+{
+  "common": {
+    "buttons": {
+      "submit": "Envoyer",
+      "cancel": "Annuler",
+      "share": "Partager",
+      "copied": "Copié !",
+      "loadMore": "Charger plus",
+      "backToHome": "Retour à l'accueil",
+      "viewAll": "Tout afficher",
+      "clickHere": "Cliquez ici",
+      "close": "Fermer",
+      "subscribe": "obtenez le résumé mensuel",
+      "sendToEditors": "Envoyer aux éditeurs d'Afroangle"
+    },
+    "seo": {
+      "home": {
+        "defaultTitle": "Afroangle",
+        "titleTemplate": "%s | Afroangle",
+        "description": "Le regard africain sur les enjeux mondiaux",
+        "ogTitle": "Afroangle - Le regard africain sur les enjeux mondiaux",
+        "ogDescription": "Afroangle est une plateforme éditoriale qui couvre la culture, l'histoire, la politique, l'innovation, les arts et le divertissement pour mettre en avant la diversité des voix et des récits de l'Afrique.",
+        "ogAlt": "Afroangle - Le regard africain sur les enjeux mondiaux"
+      },
+      "about": {
+        "title": "À propos de nous",
+        "description": "Découvrez Afroangle, notre mission et l'équipe derrière le regard africain sur les enjeux mondiaux."
+      }
+    },
+    "forms": {
+      "name": "Nom",
+      "email": "E-mail",
+      "message": "Commentaire",
+      "placeholders": {
+        "search": "Rechercher des articles...",
+        "name": "Votre nom...",
+        "email": "Votre e-mail..."
+      }
+    },
+    "errors": {
+      "notFound": "Page non trouvée",
+      "unauthorized": "Accès non autorisé",
+      "serverError": "Une erreur de serveur est survenue",
+      "invalidEmail": "Entrez une adresse e-mail valide",
+      "required": "Ce champ est obligatoire",
+      "submissionFailed": "L'envoi a échoué. Veuillez réessayer.",
+      "fileInvalid": "Seuls les fichiers PDF ou DOC sont autorisés",
+      "fileTooLarge": "Le fichier doit faire 5 Mo ou moins"
+    }
+  },
+  "navigation": {
+    "home": "Accueil",
+    "tagline": "Le regard africain sur tous les enjeux mondiaux"
+  },
+  "footer": {
+    "mission": "Afroangle est une plateforme éditoriale qui couvre la culture, l'histoire, la politique, l'innovation, les arts et le divertissement pour mettre en avant la diversité des voix et des récits de l'Afrique.",
+    "sections": {
+      "about": "À propos",
+      "social": "Réseaux sociaux",
+      "contact": "Contact",
+      "subscription": "Abonnement"
+    },
+    "links": {
+      "aboutAfroangle": "À propos d'Afroangle",
+      "emailUs": "Envoyez-nous un e-mail",
+      "submitOpinion": "Soumettre une tribune",
+      "monthlyDigest": "Récapitulatif mensuel"
+    },
+    "legal": {
+      "copyright": "Afroangle.com © 2026 L'Organisation à but non lucratif Afroangle. Tous droits réservés.",
+      "recaptcha": "Ce site est protégé par reCAPTCHA ; la politique de confidentialité et les conditions d'utilisation de Google s'appliquent."
+    }
+  },
+  "articles": {
+    "metadata": {
+      "author": "Auteur",
+      "publishedDate": "Publié le",
+      "category": "Catégorie",
+      "tags": "Étiquettes",
+      "by": "par",
+      "writer": "RÉDACTEUR"
+    },
+    "audio": {
+      "listen": "Écouter cet article",
+      "noAudio": "Aucun audio disponible pour cet article",
+      "notSupported": "Votre navigateur ne supporte pas ce format audio"
+    },
+    "list": {
+      "topArticle": "à la une",
+      "noArticles": "Aucun article trouvé",
+      "featured": "Articles à la une",
+      "catchUp": "Rattraper"
+    },
+    "comments": {
+      "title": "Laisser un commentaire",
+      "noComments": "Pas encore de commentaires",
+      "thankYou": "Merci pour votre commentaire !",
+      "sending": "Envoi en cours...",
+      "validation": {
+        "commentTooShort": "Le commentaire doit comporter au moins 5 caractères",
+        "commentTooLong": "Le commentaire ne peut pas dépasser 600 caractères"
+      }
+    }
+  },
+  "authors": {
+    "notExist": "L'auteur n'existe pas",
+    "readMoreFrom": "LIRE PLUS DE",
+    "subheading": "Voici toutes les tribunes qui ont été publiées par"
+  },
+  "categories": {
+    "viewAll": "Voir toutes les catégories",
+    "explore": "Explorez nos articles sur",
+    "notFound": "Catégorie non trouvée",
+    "noArticlesInCategory": "Aucun article trouvé dans cette catégorie",
+    "topIdea": "LES MEILLEURES IDÉES DE LA SEMAINE",
+    "readMore": "Lire plus de ",
+    "subheading": "Nos meilleures analyses, débats, idées et récits de la semaine."
+  },
+  "about": {
+    "pageTitle": "À propos de nous",
+    "heading": "L'Afrique en point de mire — sans filtre, évolutive, plurielle.",
+    "body": "Afroangle est une plateforme éditoriale racontant les histoires qui façonnent l'Afrique contemporaine et sa diaspora mondiale...",
+    "submission": {
+      "title": "Soumettre une tribune",
+      "intro": "Afroangle recherche des reportages originaux et des analyses pointues...",
+      "strongStoryTitle": "Qu'est-ce qui fait une bonne histoire pour Afroangle ?",
+      "strongStoryBody": "Des perspectives nouvelles, des recherches rigoureuses et des récits qui révèlent la complexité de l'Afrique...",
+      "readyToPitch": "Prêt à soumettre ?"
+    }
+  },
+  "newsletter": {
+    "modal": {
+      "freeBadge": "Gratuit",
+      "title": "Le journalisme qui explique <br /> l'Afrique au monde",
+      "description": "Accédez à un nombre limité d'articles gratuits, des alertes info, des newsletters sélectionnées, des podcasts et des jeux quotidiens.",
+      "success": {
+        "title": "Vous êtes maintenant abonné",
+        "description": "Consultez vos e-mails pour accéder aux articles gratuits, aux alertes info, aux newsletters, aux podcasts et aux jeux."
+      }
+    }
+  },
+  "opinionSubmission": {
+    "modal": {
+      "form": {
+        "title": "Devenez rédacteur pour Afroangle. <br /> Soumettez votre tribune",
+        "description": "Envoyez votre tribune ici pour que nos éditeurs l'examinent et reviennent vers vous.",
+        "fileHint": "Formats acceptés : pdf, doc, docx (max 5 Mo)"
+      },
+      "success": {
+        "title": "Soumission reçue",
+        "description": "Merci pour votre envoi. Nos éditeurs vont examiner votre texte et reviendront vers vous rapidement par e-mail."
+      }
+    }
+  }
+}
