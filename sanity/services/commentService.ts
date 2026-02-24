@@ -20,7 +20,7 @@ export async function getArticleComments(
   const [data, total] = await Promise.all([
     client.fetch(
       GET_COMMENTS_BY_ARTICLE,
-      { _id: articleId, start, end },
+      { _id: articleId, locale, start, end },
       { next: { revalidate: 10 } }, // Reduced to 60s so new comments appear faster than 1hr
     ),
     client.fetch(

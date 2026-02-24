@@ -1,4 +1,5 @@
 "use client";
+
 /**
  * This configuration is used to for the Sanity Studio that’s mounted on the `\app\admin\[[...tool]]\page.tsx` route
  */
@@ -12,6 +13,7 @@ import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schemaTypes } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 import { documentInternationalization } from "@sanity/document-internationalization";
+import { assist } from "@sanity/assist";
 
 export default defineConfig({
   basePath: "/admin",
@@ -22,6 +24,7 @@ export default defineConfig({
     types: schemaTypes,
   },
   plugins: [
+    assist(),
     structureTool({ structure }),
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
@@ -31,7 +34,7 @@ export default defineConfig({
         { id: "en", title: "English" },
         { id: "fr", title: "French" },
       ],
-      schemaTypes: ["article", "comment"], // add your home singleton type here
+      schemaTypes: ["article", "category", "author"], // add your home singleton type here
       languageField: "language",
       bulkPublish: true,
     }),

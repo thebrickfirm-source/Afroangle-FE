@@ -56,5 +56,11 @@ export const authorType = defineType({
       validation: (Rule) => Rule.unique().max(10),
       description: "Add the platforms this Author is active.",
     }),
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
   ],
 });
