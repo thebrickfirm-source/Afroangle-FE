@@ -121,7 +121,7 @@ const AboutPageContent = ({ dict }: AboutPageProps) => {
               </div>
 
               <div className="text-base lg:text-lg font-secondary">
-                {about.submission.readyToPitch}
+                {about.submission.readyToPitch} {""}
                 <OpinionSubmissionModal
                   trigger={
                     <span className="text-primary-green underline">

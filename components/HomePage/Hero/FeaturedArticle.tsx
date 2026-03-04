@@ -12,7 +12,7 @@ const FeaturedArticle = ({ article }: FeaturedArticleProps) => {
   };
   const extract =
     article.excerpt.length > 240
-      ? article.excerpt.slice(0, 210) + "…"
+      ? article.excerpt.slice(0, 240) + "…"
       : article.excerpt;
   return (
     <article

@@ -24,7 +24,7 @@ export function GenerateAudioInput(props: any) {
     try {
       // 3. Call YOUR Next.js API
       // Note: Use full URL if Studio is hosted separately, or relative if embedded in Next.js
-      const response = await fetch("/api/sanity/generate-audio", {
+      const response = await fetch("/api/generate-audio", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

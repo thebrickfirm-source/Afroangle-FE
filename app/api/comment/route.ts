@@ -1,17 +1,6 @@
 // app/api/comment/route.ts
-import { createClient } from "@sanity/client";
+import { sanityUploadClient } from "@/lib/SanityUploadClient";
 import { NextResponse } from "next/server";
-
-/* ===========================
-   Sanity client
-=========================== */
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  apiVersion: "2024-01-01",
-  token: process.env.SANITY_API_WRITE_TOKEN,
-  useCdn: false,
-});
 
 const RATE_LIMIT = new Map<string, number[]>();
 
@@ -84,7 +73,7 @@ export async function POST(req: Request) {
      5. Save comment to Sanity
   ============================ */
   try {
-    await client.create({
+    await sanityUploadClient.create({
       _type: "comment",
       article: {
         _type: "reference",

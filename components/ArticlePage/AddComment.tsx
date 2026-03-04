@@ -79,7 +79,7 @@ export default function CommentForm({
   const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
     setIsSubmitting(true);
     try {
-      const res = await fetch("/api/sanity/comment", {
+      const res = await fetch("/api/comment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

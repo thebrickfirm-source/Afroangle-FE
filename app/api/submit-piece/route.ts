@@ -1,13 +1,5 @@
-import { createClient } from "@sanity/client";
+import { sanityUploadClient } from "@/lib/SanityUploadClient";
 import { NextResponse } from "next/server";
-
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  apiVersion: "2026-01-17",
-  token: process.env.SANITY_API_WRITE_TOKEN,
-  useCdn: false,
-});
 
 // Helper function to send email via Brevo
 async function sendEmailNotification(
@@ -71,13 +63,13 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(arrayBuffer);
 
     // 1. Upload file to Sanity Assets
-    const asset = await client.assets.upload("file", buffer, {
+    const asset = await sanityUploadClient.assets.upload("file", buffer, {
       filename: file.name,
       contentType: file.type,
     });
 
     // 2. Create the document
-    const result = await client.create({
+    const result = await sanityUploadClient.create({
       _type: "opinionPiece",
       name,
       email,

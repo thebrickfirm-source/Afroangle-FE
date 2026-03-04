@@ -22,7 +22,7 @@ export default function LocaleLink({
 
   const localizedHref = `/${locale}${href.toString() === "/" ? "" : href.toString().startsWith("/") ? href : `/${href}`}`;
   const isActive = pathname === localizedHref;
-  console.log(localizedHref);
+  // console.log(localizedHref);
   return (
     <Link
       href={localizedHref}
