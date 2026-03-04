@@ -47,7 +47,10 @@ export default async function Footer({ locale }: FooterProps) {
     {
       title: footer.sections.contact,
       links: [
-        { label: footer.links.emailUs, href: "mailto:editorial@afroangle.com" },
+        {
+          label: footer.links.emailUs,
+          href: "mailto:editorial@afroangle.com&subject=Inquiry%20from%20Afroangle%20Website&body=Hello%2C%0AI%20have%20a%20question.",
+        },
         {
           label: footer.links.submitOpinion,
           href: localePath(locale, "/about#submit-piece"),

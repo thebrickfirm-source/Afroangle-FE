@@ -8,16 +8,16 @@ export const categoryType = defineType({
   icon: FolderIcon,
   fields: [
     defineField({
-      name: "name",
-      title: "Name",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: "language",
       type: "string",
       readOnly: true,
       hidden: true,
+    }),
+    defineField({
+      name: "name",
+      title: "Name",
+      type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",

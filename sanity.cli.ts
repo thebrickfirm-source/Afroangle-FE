@@ -10,7 +10,7 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
 export default defineCliConfig({
   api: { projectId, dataset },
   deployment: {
-    appId: "o6u0p7wxdl162o3to38tk1n4",
+    appId: "t93i82zfz7k765yqkqu20ao5",
     autoUpdates: true,
   },
 });

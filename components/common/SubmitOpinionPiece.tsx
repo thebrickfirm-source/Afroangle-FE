@@ -91,7 +91,7 @@ export default function OpinionSubmissionModal({
     formData.append("email", data.email);
     if (file) formData.append("file", file);
 
-    const response = await fetch("/api/sanity/submit-piece", {
+    const response = await fetch("/api/submit-piece", {
       method: "POST",
       body: formData,
     });
