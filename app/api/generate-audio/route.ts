@@ -1,17 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@sanity/client";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
+import { sanityUploadClient } from "@/lib/SanityUploadClient";
 
-// 1. Initialize Sanity Client with WRITE permissions
-export const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  apiVersion: "2026-01-17",
-  token: process.env.SANITY_API_WRITE_TOKEN, // CRITICAL: Must be a Write token
-  useCdn: false, // Always false for write operations
-});
-
-// 2. Initialize ElevenLabs
+// Initialize ElevenLabs
 const elevenLabs = new ElevenLabsClient({
   apiKey: process.env.ELEVENLABS_API_KEY,
 });
@@ -79,14 +70,14 @@ export async function POST(req: NextRequest) {
 
     // D. Upload to Sanity
     // This stores the actual file in Sanity's CDN
-    const asset = await sanityClient.assets.upload("file", audioBuffer, {
+    const asset = await sanityUploadClient.assets.upload("file", audioBuffer, {
       filename: `narration-${postId}.mp3`,
       contentType: "audio/mpeg",
     });
 
     // E. Link the Asset to the Post
     // We patch the post document to point to the new file asset
-    await sanityClient
+    await sanityUploadClient
       .patch(postId)
       .set({
         audio: {

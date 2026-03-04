@@ -13,28 +13,33 @@ import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schemaTypes } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 import { documentInternationalization } from "@sanity/document-internationalization";
-import { assist } from "@sanity/assist";
+import { TranslateAction } from "./sanity/actions/translateAction";
 
 export default defineConfig({
   basePath: "/admin",
   projectId,
   dataset,
-  // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema: {
     types: schemaTypes,
   },
+  document: {
+    actions: (prev, context) => {
+      // Add the translation action to our specific schemas
+      if (["article", "author", "category"].includes(context.schemaType)) {
+        return [...prev, TranslateAction];
+      }
+      return prev;
+    },
+  },
   plugins: [
-    assist(),
     structureTool({ structure }),
-    // Vision is for querying with GROQ from inside the Studio
-    // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
     documentInternationalization({
       supportedLanguages: [
         { id: "en", title: "English" },
         { id: "fr", title: "French" },
       ],
-      schemaTypes: ["article", "category", "author"], // add your home singleton type here
+      schemaTypes: ["article", "category", "author", "comment"],
       languageField: "language",
       bulkPublish: true,
     }),

@@ -19,6 +19,12 @@ export const articleType = defineType({
   ],
   fields: [
     defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: "title",
       type: "string",
       group: "content",
@@ -35,14 +41,26 @@ export const articleType = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+
+    // Author filtered to same language as this document
     defineField({
       name: "author",
       type: "reference",
       group: "meta",
       to: [{ type: "author" }],
-      options: { disableNew: true },
+      options: {
+        disableNew: true,
+        filter: ({ document }) => {
+          if (!document.language) return {};
+          return {
+            filter: "language == $lang",
+            params: { lang: document.language },
+          };
+        },
+      },
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: "content",
       title: "Body Content",
@@ -63,7 +81,6 @@ export const articleType = defineType({
           ],
         },
         { type: "videoUpload" },
-        // Added: Flexible Social Embed
         { type: "socialMediaPost" },
       ],
     }),
@@ -88,24 +105,35 @@ export const articleType = defineType({
       components: { input: GenerateAudioInput },
       options: { accept: "audio/mpeg" },
     }),
+
+    // Categories filtered to same language as this document
     defineField({
       name: "categories",
       type: "array",
       group: "meta",
-      of: [{ type: "reference", to: [{ type: "category" }] }],
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "category" }],
+          options: {
+            filter: ({ document }) => {
+              if (!document.language) return {};
+              return {
+                filter: "language == $lang",
+                params: { lang: document.language },
+              };
+            },
+          },
+        },
+      ],
       validation: (Rule) => Rule.required().min(1),
     }),
+
     defineField({
       name: "publishedAt",
       type: "datetime",
       group: "meta",
       initialValue: () => new Date().toISOString(),
-    }),
-    defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
     }),
   ],
 });

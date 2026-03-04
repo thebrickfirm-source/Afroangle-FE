@@ -8,6 +8,12 @@ export const authorType = defineType({
   icon: UserIcon,
   fields: [
     defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: "name",
       title: "Full name",
       type: "string",
@@ -20,7 +26,6 @@ export const authorType = defineType({
       options: {
         source: "name",
         maxLength: 96,
-        // Ensures uniqueness for this document type
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (Rule) => Rule.required(),
@@ -46,8 +51,6 @@ export const authorType = defineType({
       rows: 4,
       validation: (Rule) => Rule.required().min(20),
     }),
-
-    // Scalable socials field
     defineField({
       name: "socials",
       title: "Social links",
@@ -55,12 +58,6 @@ export const authorType = defineType({
       of: [{ type: "socialLink" }],
       validation: (Rule) => Rule.unique().max(10),
       description: "Add the platforms this Author is active.",
-    }),
-    defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
     }),
   ],
 });
