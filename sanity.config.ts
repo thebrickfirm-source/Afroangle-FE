@@ -24,6 +24,7 @@ export default defineConfig({
   },
   document: {
     actions: (prev, context) => {
+      // Add the translation action to our specific schemas
       if (["article", "author", "category"].includes(context.schemaType)) {
         return [...prev, TranslateAction];
       }
