@@ -21,7 +21,6 @@ export default async function ArticlePageContent({
   locale,
   article,
 }: ArticlePageContentProps) {
-  // 1. Safety checks first!
   if (!hasLocale(locale)) notFound();
   if (!article) notFound();
 
@@ -29,10 +28,10 @@ export default async function ArticlePageContent({
 
   return (
     <main>
-      <section className="mx-auto max-w-screen-xl py-8 lg:py-12">
-        <ArticleHeader category={article.category} dict={dict} />
+      <section className="max-w-screen-xl py-8 mx-auto lg:py-12">
+        <ArticleHeader categories={article.categories} dict={dict} />
 
-        <article className="space-y-4 px-4 lg:space-y-8 lg:px-24">
+        <article className="px-4 space-y-4 lg:space-y-8 lg:px-24">
           <h1 className="text-3xl font-bold capitalize lg:w-11/12 lg:text-6xl">
             {article.title}
           </h1>
@@ -67,7 +66,7 @@ export default async function ArticlePageContent({
 
           {/* 4. Safely check for content before rendering PortableText */}
           {article.content && (
-            <div className="prose prose-blue prose-xl mx-auto max-w-3xl">
+            <div className="max-w-3xl mx-auto prose prose-xl prose-blue">
               <PortableText value={article.content} components={components} />
             </div>
           )}
@@ -77,7 +76,7 @@ export default async function ArticlePageContent({
           </div>
 
           <div>
-            <Comments id={article._id} locale={locale} dict={dict} />
+            <Comments articleId={article._id} locale={locale} dict={dict} />
             <CommentForm locale={locale} postId={article._id} dict={dict} />
           </div>
 

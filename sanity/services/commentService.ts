@@ -9,7 +9,7 @@ import { PaginatedResponse } from "./articleService"; // Adjust import path if n
 const DEFAULT_LIMIT = 5;
 
 export async function getArticleComments(
-  articleId: string, // locale removed!
+  articleId: string,
   page: number = 1,
   limit: number = DEFAULT_LIMIT,
 ): Promise<PaginatedResponse<GET_COMMENTS_BY_ARTICLE_RESULT>> {

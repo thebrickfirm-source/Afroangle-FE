@@ -29,7 +29,7 @@ export const ARTICLE_BY_SLUG_QUERY = groq`
       "url": mainImage.asset->url,
       "caption": mainImage.caption,
     },
-    "category": categories[0]-> {
+    "categories": categories[]-> {
       name, 
       "slug": slug.current,
     },
