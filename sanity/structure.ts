@@ -6,6 +6,7 @@ import {
   FolderIcon,
   CommentIcon,
 } from "@sanity/icons";
+import { apiVersion } from "./env";
 
 export const structure: StructureResolver = (S) => {
   // 1. Define your supported languages
@@ -43,6 +44,7 @@ export const structure: StructureResolver = (S) => {
                       // 5. Filter the documents by _type AND language
                       S.documentList()
                         .title(`${lang.title} ${schema.title}`)
+                        .apiVersion(apiVersion)
                         .schemaType(schema.type)
                         .filter("_type == $type && language == $lang")
                         .params({ type: schema.type, lang: lang.id })
