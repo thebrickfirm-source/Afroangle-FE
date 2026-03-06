@@ -132,7 +132,7 @@ export default function OpinionSubmissionModal({
             </button>
 
             {/* STATE 1: SUCCESS VIEW */}
-            {status === "idle" ? (
+            {status === "success" ? (
               <div className="w-full flex flex-col items-center fade-in duration-300">
                 <h2 className="font-primary font-bold text-xl uppercase tracking-widest mb-8 text-black">
                   {modal.success.title}
