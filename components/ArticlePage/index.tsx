@@ -37,7 +37,7 @@ export default async function ArticlePageContent({
           </h1>
 
           <div className="flex gap-2">
-            <p className="text-lg">{dict.articles.metadata.by}</p>
+            <p className="font-secondary">{dict.articles.metadata.by}</p>
             <ArticleMeta
               large
               author={article.author}
