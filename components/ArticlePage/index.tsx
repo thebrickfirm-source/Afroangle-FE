@@ -8,7 +8,7 @@ import { ARTICLE_BY_SLUG_QUERY_RESULT } from "@/sanity/types";
 import Comments from "./Comments";
 import AudioPlayer from "./AudioPlayer";
 import CommentForm from "./AddComment";
-import { getDictionary, hasLocale } from "@/app/[locale]/dictionaries";
+import { getDictionary } from "@/app/[locale]/dictionaries";
 import AuthorBio from "./AuthorBio";
 import ReadMore from "./ReadMore";
 
@@ -21,9 +21,6 @@ export default async function ArticlePageContent({
   locale,
   article,
 }: ArticlePageContentProps) {
-  if (!hasLocale(locale)) notFound();
-  if (!article) notFound();
-
   const dict = await getDictionary(locale);
 
   return (
