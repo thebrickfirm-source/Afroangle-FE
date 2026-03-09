@@ -212,7 +212,11 @@ http://localhost:3000/admin
 | `NEXT_PUBLIC_SANITY_DATASET`      | Sanity dataset name                         | Yes      |
 | `NEXT_PUBLIC_SANITY_API_VERSION`  | Sanity API version                          | Yes      |
 | `SANITY_API_TOKEN`                | Sanity API token for server-side operations | Yes      |
+| `SANITY_API_WRITE_TOKEN`          | Sanity API token for file uploads           | Yes      |
 | `NEXT_PUBLIC_SANITY_STUDIO_TITLE` | Studio app title                            | No       |
+| `NEXT_PUBLIC_URL`                 | Base URL for the application                | No       |
+| `BREVO_API_KEY`                   | Brevo email service API key                 | No       |
+| `DEEPL_API_KEY`                   | DeepL translation API key                   | No       |
 
 ## 🤝 Contributing
 
