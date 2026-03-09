@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FiSearch, FiLoader } from "react-icons/fi";
 
 interface FooterSearchProps {

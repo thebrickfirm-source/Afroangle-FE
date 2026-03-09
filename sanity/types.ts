@@ -13,32 +13,55 @@
  */
 
 // Source: sanity/schema.json
-export type VideoEmbed = {
-  _type: "videoEmbed";
-  url?: string;
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
 };
 
-export type TwitterEmbed = {
-  _type: "twitterEmbed";
-  url?: string;
-};
-
-export type Category = {
+export type OpinionPiece = {
   _id: string;
-  _type: "category";
+  _type: "opinionPiece";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name?: string;
-  language?: string;
-  slug?: Slug;
-  description?: string;
+  email?: string;
+  fileUpload?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+  downloadButton?: string;
 };
 
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
+export type SocialLink = {
+  _type: "socialLink";
+  platform?:
+    | "x"
+    | "instagram"
+    | "linkedin"
+    | "facebook"
+    | "youtube"
+    | "tiktok"
+    | "website";
+  url?: string;
+};
+
+export type VideoUpload = {
+  _type: "videoUpload";
+  url?: string;
+  videoFile?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+};
+
+export type SocialMediaPost = {
+  _type: "socialMediaPost";
+  url?: string;
 };
 
 export type TranslationMetadata = {
@@ -57,21 +80,41 @@ export type InternationalizedArrayReference = Array<
   } & InternationalizedArrayReferenceValue
 >;
 
+export type ArticleReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "article";
+};
+
+export type CategoryReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "category";
+};
+
+export type AuthorReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "author";
+};
+
+export type CommentReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "comment";
+};
+
 export type InternationalizedArrayReferenceValue = {
   _type: "internationalizedArrayReferenceValue";
   value?:
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "article";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "comment";
-      };
+    | ArticleReference
+    | CategoryReference
+    | AuthorReference
+    | CommentReference;
 };
 
 export type Comment = {
@@ -80,17 +123,37 @@ export type Comment = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  approved?: boolean;
   name?: string;
-  language?: string;
   email?: string;
   message?: string;
-  article?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "article";
-  };
-  approved?: boolean;
+  article?: ArticleReference;
+  language?: string;
+};
+
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
 export type Article = {
@@ -102,32 +165,7 @@ export type Article = {
   language?: string;
   title?: string;
   slug?: Slug;
-  author?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "author";
-  };
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  mainImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    caption?: string;
-    _type: "image";
-  };
+  author?: AuthorReference;
   content?: Array<
     | {
         children?: Array<{
@@ -156,12 +194,7 @@ export type Article = {
         _key: string;
       }
     | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
+        asset?: SanityImageAssetReference;
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
@@ -171,29 +204,30 @@ export type Article = {
       }
     | ({
         _key: string;
-      } & VideoEmbed)
+      } & VideoUpload)
     | ({
         _key: string;
-      } & TwitterEmbed)
+      } & SocialMediaPost)
   >;
+  mainImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    caption?: string;
+    _type: "image";
+  };
   audio?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
+    asset?: SanityFileAssetReference;
     media?: unknown;
     _type: "file";
   };
+  categories?: Array<
+    {
+      _key: string;
+    } & CategoryReference
+  >;
   publishedAt?: string;
-  comments?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "comment";
-  }>;
 };
 
 export type SanityImageCrop = {
@@ -218,22 +252,32 @@ export type Author = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language?: string;
   name?: string;
   slug?: Slug;
   image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    caption?: string;
+    alt?: string;
     _type: "image";
   };
   bio?: string;
+  socials?: Array<
+    {
+      _key: string;
+    } & SocialLink
+  >;
+};
+
+export type MediaTag = {
+  _id: string;
+  _type: "media.tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Slug;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -269,6 +313,7 @@ export type SanityImageMetadata = {
   palette?: SanityImagePalette;
   lqip?: string;
   blurHash?: string;
+  thumbHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
 };
@@ -333,18 +378,27 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | VideoEmbed
-  | TwitterEmbed
-  | Category
-  | Slug
+  | SanityFileAssetReference
+  | OpinionPiece
+  | SocialLink
+  | VideoUpload
+  | SocialMediaPost
   | TranslationMetadata
   | InternationalizedArrayReference
+  | ArticleReference
+  | CategoryReference
+  | AuthorReference
+  | CommentReference
   | InternationalizedArrayReferenceValue
   | Comment
+  | Category
+  | Slug
+  | SanityImageAssetReference
   | Article
   | SanityImageCrop
   | SanityImageHotspot
   | Author
+  | MediaTag
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -409,12 +463,7 @@ export type ARTICLE_BY_SLUG_QUERY_RESULT = {
         _key: string;
       }
     | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
+        asset?: SanityImageAssetReference;
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
@@ -425,13 +474,19 @@ export type ARTICLE_BY_SLUG_QUERY_RESULT = {
       }
     | {
         _key: string;
-        _type: "twitterEmbed";
-        url?: string;
+        _type: "socialMediaPost";
+        url: string | null;
       }
     | {
         _key: string;
-        _type: "videoEmbed";
+        _type: "videoUpload";
         url?: string;
+        videoFile?: {
+          asset?: SanityFileAssetReference;
+          media?: unknown;
+          _type: "file";
+        };
+        videoFileUrl: string | null;
       }
   > | null;
 } | null;
@@ -549,10 +604,21 @@ export type GET_AUTHOR_BY_SLUG_RESULT = {
   name: string | null;
   bio: string | null;
   image: string | null;
-  alt: null;
-  socials: null;
+  alt: string | null;
+  socials: Array<{
+    platform:
+      | "facebook"
+      | "instagram"
+      | "linkedin"
+      | "tiktok"
+      | "website"
+      | "x"
+      | "youtube"
+      | null;
+    url: string | null;
+  }> | null;
   translations: Array<{
-    language: null;
+    language: string | null;
     slug: string | null;
   }>;
 } | null;

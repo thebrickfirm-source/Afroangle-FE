@@ -77,7 +77,7 @@ export default async function ArticlePageContent({
           </div>
 
           <div>
-            <Comments articleId={article._id} locale={locale} dict={dict} />
+            <Comments articleId={article._id} dict={dict} />
             <CommentForm locale={locale} postId={article._id} dict={dict} />
           </div>
 

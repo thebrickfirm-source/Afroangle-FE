@@ -1,10 +1,11 @@
 import { Dictionary } from "@/app/[locale]/dictionaries";
 import ArticleList from "@/components/ArticleList";
+import { SEARCH_ARTICLES_QUERY_RESULT } from "@/sanity/types";
 
 interface SearchPageContentProps {
   searchTerm: string;
   locale: string;
-  results: any[];
+  results: SEARCH_ARTICLES_QUERY_RESULT;
   dict: Dictionary;
 }
 

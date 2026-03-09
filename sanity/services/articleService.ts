@@ -12,13 +12,15 @@ import {
   ALL_ARTICLES_QUERY_RESULT,
   ARTICLE_BY_SLUG_QUERY_RESULT,
   ARTICLES_BY_CATEGORY_QUERY_RESULT,
+  RELATED_ARTICLES_QUERY_RESULT,
+  SEARCH_ARTICLES_QUERY_RESULT,
 } from "../types";
 import { ARTICLES_IN_CATEGORY_COUNT } from "../queries/categories";
 import { ARTICLES_IN_AUTHOR_COUNT } from "../queries/authors";
 
 // Helper Interface for Pagination
 export interface PaginatedResponse<T> {
-  data: T[];
+  data: T;
   total: number;
   currentPage: number;
   totalPages: number;
@@ -157,13 +159,14 @@ export async function getRelatedArticles(
   articleId: string,
   categorySlugs: string[], // Pass an array of category slugs here instead
   locale: string,
-) {
+): Promise<RELATED_ARTICLES_QUERY_RESULT> {
   try {
-    return await client.fetch(
+    const articles = await client.fetch(
       RELATED_ARTICLES_QUERY,
       { articleId, categorySlugs, locale },
       { next: { revalidate: 3600 } },
     );
+    return articles;
   } catch (error) {
     console.error(`Error fetching related articles for ${articleId}:`, error);
     return [];
@@ -171,7 +174,10 @@ export async function getRelatedArticles(
 }
 
 // --- 6. Search Articles ---
-export async function searchArticles(query: string, locale: string) {
+export async function searchArticles(
+  query: string,
+  locale: string,
+): Promise<SEARCH_ARTICLES_QUERY_RESULT> {
   try {
     return await client.fetch(
       SEARCH_ARTICLES_QUERY,
