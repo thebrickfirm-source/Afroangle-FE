@@ -16,7 +16,7 @@ export default function NotFound() {
   const dict = locale === "fr" ? fr : en;
 
   return (
-    <main className="flex min-h-[70vh] w-full flex-col items-center justify-center px-4 text-center">
+    <main className="flex min-h-[70vh] w-full flex-col font-secondary items-center justify-center px-4 text-center">
       <div className="max-w-md space-y-6">
         {/* The 404 Graphic */}
         <h1 className="text-8xl font-black tracking-tighter text-neutral-200 lg:text-9xl">
@@ -28,9 +28,6 @@ export default function NotFound() {
           <h2 className="text-2xl font-bold text-neutral-800 lg:text-3xl">
             {dict.common.errors.notFound}
           </h2>
-          <p className="font-secondary text-neutral-500">
-            {dict.navigation.tagline}
-          </p>
         </div>
 
         {/* Back to Home Button */}
