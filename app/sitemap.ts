@@ -12,24 +12,54 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     language,
     _updatedAt
   }`;
-
+  const categoriesQuery = `*[_type == "category"] {
+    "slug": slug.current,
+    language,
+    _updatedAt
+  }`;
+  const authorQuery = `*[_type == "author"] {
+    "slug": slug.current,
+    language,
+    _updatedAt
+  }`;
   const articles = await client.fetch(query);
-
+  const categories = await client.fetch(categoriesQuery);
+  const authors = await client.fetch(authorQuery);
+  
   // Map the articles to sitemap URL objects
   const articleUrls: MetadataRoute.Sitemap = articles.map((article: any) => ({
     url: `${baseUrl}/${article.language}/articles/${article.slug}`,
     lastModified: article._updatedAt,
-    changeFrequency: "weekly",
+    changeFrequency: "daily",
     priority: 0.8,
+  }));
+  // map the categories and authors to sitemap URL objects
+  const categoryUrls: MetadataRoute.Sitemap = categories.map((category: any) => ({
+    url: `${baseUrl}/${category.language}/categories/${category.slug}`,
+    lastModified: category._updatedAt, 
+    changeFrequency: "weekly",  
+    priority: 0.7,
+  }));
+
+  const authorUrls: MetadataRoute.Sitemap = authors.map((author: any) => ({
+    url: `${baseUrl}/${author.language}/authors/${author.slug}`,  
+    changeFrequency: "weekly",
+    priority: 0.6,
   }));
 
   // Add your static localized routes (Home, Categories index, etc.)
-  const staticRoutes: MetadataRoute.Sitemap = ["en", "fr"].map((lang) => ({
+  const localizedRoutes: MetadataRoute.Sitemap = ["en", "fr"].map((lang) => ({
     url: `${baseUrl}/${lang}`,
     lastModified: new Date(),
     changeFrequency: "daily",
     priority: 1,
   }));
+  const staticRoutes: MetadataRoute.Sitemap = ["en", "fr"].flatMap((lang) => [
+    {
+      url: `${baseUrl}/${lang}/about`,
+    },
+    {url: `${baseUrl}/${lang}/submit-piece`,},
+  ]);
 
-  return [...staticRoutes, ...articleUrls];
+  return [...localizedRoutes, ...staticRoutes, ...authorUrls, ...categoryUrls, ...articleUrls, ];
 }
