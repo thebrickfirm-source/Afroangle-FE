@@ -5,7 +5,7 @@ import { useFormValue } from "sanity";
 export function GenerateAudioInput(props: any) {
   // 1. Grab necessary data from the document context
   const docId = useFormValue(["_id"]) as string;
-  const author = useFormValue(["author"]) as string;
+  const author = useFormValue(["author"]) as { name: string } | undefined;
   const bodyBlocks = useFormValue(["content"]);
   const title = useFormValue(["title"]);
 
